@@ -36,10 +36,38 @@ namespace FantasyGenerator.Infrastructure.Data
 
             builder
                 .Entity<Skill>()
-                .HasOne(f => f.Author)
+                .HasOne(s => s.Author)
                 .WithMany(a => a.Skills)
-                .HasForeignKey(f => f.AuthorId)
+                .HasForeignKey(s => s.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<NpcCategoryName>()
+                .HasOne(n => n.Author)
+                .WithMany(a => a.npcCategoryNames)
+                .HasForeignKey(n => n.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<NpcName>()
+                .HasOne(n => n.Category)
+                .WithMany(c => c.npcNames)
+                .HasForeignKey(n => n.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+               .Entity<NpcName>()
+               .HasOne(n => n.Author)
+               .WithMany(a => a.npcNames)
+               .HasForeignKey(n => n.AuthorId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+               .Entity<NpcName>()
+               .HasOne(n => n.Race)
+               .WithMany(r => r.npcNames)
+               .HasForeignKey(n => n.RaceId)
+               .OnDelete(DeleteBehavior.Restrict);
 
         }
 
@@ -48,5 +76,15 @@ namespace FantasyGenerator.Infrastructure.Data
         public DbSet<Feat> Feats { get; init; }
 
         public DbSet<Skill> Skills { get; init; }
+
+        public DbSet<NpcCategoryName> NpcCategoryNames { get; init; }
+
+        public DbSet<NpcName> NpcNames { get; init; }
+
+        //public DbSet<Npc> Npcs { get; init; }
+
+        //public DbSet<ProfessionCategory> ProfessionCategories { get; init; }
+
+        //public DbSet<Profession> Professions { get; init; }
     }
 }

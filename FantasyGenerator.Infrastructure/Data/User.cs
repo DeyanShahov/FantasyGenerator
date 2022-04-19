@@ -14,5 +14,9 @@ namespace FantasyGenerator.Infrastructure.Data
         public IEnumerable<Feat> Feats { get; set; } = new List<Feat>();
         public IEnumerable<Skill> Skills { get; set; } = new List<Skill>();
 
+        public IEnumerable<NpcCategoryName> npcCategoryNames { get; set; } = new List<NpcCategoryName>();
+
+        public IEnumerable<NpcName> npcNames { get; set; } = new List<NpcName>();
+
     }
 }
