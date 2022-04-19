@@ -11,12 +11,19 @@ namespace FantasyGenerator.Infrastructure.Data
         public string Name { get; set; }
 
         public IEnumerable<Race> Races { get; set; } = new List<Race>();
+
         public IEnumerable<Feat> Feats { get; set; } = new List<Feat>();
+
         public IEnumerable<Skill> Skills { get; set; } = new List<Skill>();
 
-        public IEnumerable<NpcCategoryName> npcCategoryNames { get; set; } = new List<NpcCategoryName>();
+        public IEnumerable<NpcCategoryName> NpcCategoryNames { get; set; } = new List<NpcCategoryName>();
 
-        public IEnumerable<NpcName> npcNames { get; set; } = new List<NpcName>();
+        public IEnumerable<NpcName> NpcNames { get; set; } = new List<NpcName>();
+
+        public IEnumerable<ProfessionCategory> ProfessionCategories { get; set; } = new List<ProfessionCategory>();
+
+        public IEnumerable<Profession> Professions { get; set; } = new List<Profession>();
+
 
     }
 }

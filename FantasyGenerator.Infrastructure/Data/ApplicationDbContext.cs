@@ -44,21 +44,21 @@ namespace FantasyGenerator.Infrastructure.Data
             builder
                 .Entity<NpcCategoryName>()
                 .HasOne(n => n.Author)
-                .WithMany(a => a.npcCategoryNames)
+                .WithMany(a => a.NpcCategoryNames)
                 .HasForeignKey(n => n.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<NpcName>()
                 .HasOne(n => n.Category)
-                .WithMany(c => c.npcNames)
+                .WithMany(c => c.NpcNames)
                 .HasForeignKey(n => n.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
                .Entity<NpcName>()
                .HasOne(n => n.Author)
-               .WithMany(a => a.npcNames)
+               .WithMany(a => a.NpcNames)
                .HasForeignKey(n => n.AuthorId)
                .OnDelete(DeleteBehavior.Restrict);
 
@@ -67,6 +67,27 @@ namespace FantasyGenerator.Infrastructure.Data
                .HasOne(n => n.Race)
                .WithMany(r => r.npcNames)
                .HasForeignKey(n => n.RaceId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<ProfessionCategory>()
+                .HasOne(p => p.Author)
+                .WithMany(a => a.ProfessionCategories)
+                .HasForeignKey(p => p.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Profession>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Professions)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+               .Entity<Profession>()
+               .HasOne(p => p.Author)
+               .WithMany(a => a.Professions)
+               .HasForeignKey(p => p.AuthorId)
                .OnDelete(DeleteBehavior.Restrict);
 
         }
@@ -83,8 +104,8 @@ namespace FantasyGenerator.Infrastructure.Data
 
         //public DbSet<Npc> Npcs { get; init; }
 
-        //public DbSet<ProfessionCategory> ProfessionCategories { get; init; }
+        public DbSet<ProfessionCategory> ProfessionCategories { get; init; }
 
-        //public DbSet<Profession> Professions { get; init; }
+        public DbSet<Profession> Professions { get; init; }
     }
 }

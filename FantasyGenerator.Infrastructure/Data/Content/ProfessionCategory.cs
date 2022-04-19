@@ -23,5 +23,7 @@ namespace FantasyGenerator.Infrastructure.Data.Content
         public User Author { get; init; }
 
         public bool IsPublic { get; set; }
+
+        public IEnumerable<Profession> Professions { get; set; } = new List<Profession>();
     }
 }

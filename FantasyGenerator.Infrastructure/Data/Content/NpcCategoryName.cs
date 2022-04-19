@@ -24,6 +24,6 @@ namespace FantasyGenerator.Infrastructure.Data.Content
 
         public bool IsPublic { get; set; }
 
-        public IEnumerable<NpcName> npcNames { get; set; } = new List<NpcName>();
+        public IEnumerable<NpcName> NpcNames { get; set; } = new List<NpcName>();
     }
 }
