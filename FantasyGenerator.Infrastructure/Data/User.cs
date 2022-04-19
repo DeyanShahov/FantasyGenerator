@@ -24,6 +24,6 @@ namespace FantasyGenerator.Infrastructure.Data
 
         public IEnumerable<Profession> Professions { get; set; } = new List<Profession>();
 
-
+        public IEnumerable<Npc> Npcs { get; set; } = new List<Npc>();
     }
 }

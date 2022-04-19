@@ -90,6 +90,27 @@ namespace FantasyGenerator.Infrastructure.Data
                .HasForeignKey(p => p.AuthorId)
                .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .Entity<Npc>()
+                .HasOne(n => n.Race)
+                .WithMany(r => r.Npcs)
+                .HasForeignKey(n => n.RaceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+             .Entity<Npc>()
+             .HasOne(n => n.Profession)
+             .WithMany(p => p.Npcs)
+             .HasForeignKey(n => n.ProfessionId)
+             .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+           .Entity<Npc>()
+           .HasOne(n => n.Author)
+           .WithMany(a => a.Npcs)
+           .HasForeignKey(n => n.AuthorId)
+           .OnDelete(DeleteBehavior.Restrict);
+
         }
 
         public DbSet<Race> Races { get; init; }
@@ -102,10 +123,10 @@ namespace FantasyGenerator.Infrastructure.Data
 
         public DbSet<NpcName> NpcNames { get; init; }
 
-        //public DbSet<Npc> Npcs { get; init; }
-
         public DbSet<ProfessionCategory> ProfessionCategories { get; init; }
 
         public DbSet<Profession> Professions { get; init; }
+
+        public DbSet<Npc> Npcs { get; init; }
     }
 }

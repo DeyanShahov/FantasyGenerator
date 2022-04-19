@@ -29,5 +29,7 @@ namespace FantasyGenerator.Infrastructure.Data.Content
 
         public IEnumerable<NpcName> npcNames { get; set; } = new List<NpcName>();
 
+        public IEnumerable<Npc> Npcs { get; set; } = new List<Npc>();
+
     }
 }

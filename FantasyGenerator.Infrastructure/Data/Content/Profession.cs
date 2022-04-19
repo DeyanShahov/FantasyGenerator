@@ -28,5 +28,7 @@ namespace FantasyGenerator.Infrastructure.Data.Content
         public User Author { get; init; }
 
         public bool IsPublic { get; set; }
+
+        public IEnumerable<Npc> Npcs { get; set; } = new List<Npc>();
     }
 }
