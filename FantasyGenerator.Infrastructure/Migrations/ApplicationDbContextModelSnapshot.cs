@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using FantasyGenerator.Infrastructure.Data;
 
-namespace FantasyGenerator.Infrastructure.Data.Migrations
+namespace FantasyGenerator.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
