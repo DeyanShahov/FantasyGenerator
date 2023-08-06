@@ -9,5 +9,7 @@ namespace FantasyGenerator.Infrastructure.Data
             : base(options)
         {
         }
+
+        public DbSet<Npc> Npcs { get; set; }
     }
 }
