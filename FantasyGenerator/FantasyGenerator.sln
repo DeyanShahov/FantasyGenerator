@@ -5,6 +5,10 @@ VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyGenerator", "FantasyGenerator.csproj", "{3DF9CF00-D79D-4008-AAB6-2E050BB9186F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyGenerator.Core", "..\FantasyGenerator.Core\FantasyGenerator.Core.csproj", "{9CBD317D-A2E6-44BB-BC49-927B2B7CA58D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasyGenerator.Infrastructure", "..\FantasyGenerator.Infrastructure\FantasyGenerator.Infrastructure.csproj", "{24D11289-2197-4CFC-B5FB-7ABEB794C88A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3DF9CF00-D79D-4008-AAB6-2E050BB9186F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DF9CF00-D79D-4008-AAB6-2E050BB9186F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DF9CF00-D79D-4008-AAB6-2E050BB9186F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBD317D-A2E6-44BB-BC49-927B2B7CA58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBD317D-A2E6-44BB-BC49-927B2B7CA58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBD317D-A2E6-44BB-BC49-927B2B7CA58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBD317D-A2E6-44BB-BC49-927B2B7CA58D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D11289-2197-4CFC-B5FB-7ABEB794C88A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D11289-2197-4CFC-B5FB-7ABEB794C88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D11289-2197-4CFC-B5FB-7ABEB794C88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D11289-2197-4CFC-B5FB-7ABEB794C88A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
