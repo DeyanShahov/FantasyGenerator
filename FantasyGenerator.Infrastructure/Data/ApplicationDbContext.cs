@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using FantasyGenerator.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FantasyGenerator.Infrastructure.Data
@@ -10,6 +11,20 @@ namespace FantasyGenerator.Infrastructure.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder
+                .Entity<Npc>()
+                .HasOne(n => n.Race)
+                .WithMany(r => r.Npcs)
+                .HasForeignKey(n => n.RaceId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
         public DbSet<Npc> Npcs { get; set; }
+
+        public DbSet<Race> Races { get; set; }
     }
 }

@@ -2,11 +2,13 @@
 {
     public class DataConstants
     {
+        public const int GuidMaxLength = 68;
+        public const int Description = 500;
+
         public class User
         {
             public const int NameMinLength = 3;
             public const int NameMaxLength = 30;
-            public const int GuidMaxLength = 68;
         }
 
         public class Race
@@ -14,7 +16,7 @@
             public const int NameMinLength = 3;
             public const int NameMaxLength = 20;
             public const int DescriptionMinLength = 10;
-            public const int DescriptionMaxLength = 200;
+            public const int DescriptionMaxLength = 200;          
         }
 
         public class Feat

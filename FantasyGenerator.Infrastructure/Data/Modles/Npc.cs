@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FantasyGenerator.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +8,7 @@ namespace FantasyGenerator.Infrastructure.Data
     public class Npc
     {
         [Key]
-        [MaxLength(DataConstants.User.GuidMaxLength)]
+        [MaxLength(DataConstants.GuidMaxLength)]
         public Guid Id { get; init; } = Guid.NewGuid();
 
         [Required]
@@ -25,9 +26,14 @@ namespace FantasyGenerator.Infrastructure.Data
 
         public bool IsMale { get; init; } = true;
 
+
         [Required]
+        [MaxLength(DataConstants.GuidMaxLength)]
+        public Guid RaceId { get; init; }
+
         [MaxLength(DataConstants.Race.NameMaxLength)]
-        public string Race { get; init; }
+        [ForeignKey(nameof(RaceId))]
+        public Race? Race { get; init; }
 
 
         [MaxLength(DataConstants.Profession.NameMaxLength)]
