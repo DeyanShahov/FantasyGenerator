@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FantasyGenerator.Infrastructure.Migrations
+namespace FantasyGenerator.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -21,6 +21,42 @@ namespace FantasyGenerator.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("FantasyGenerator.Infrastructure.Data.Content.Profession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(68)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Professions");
+                });
 
             modelBuilder.Entity("FantasyGenerator.Infrastructure.Data.Models.Race", b =>
                 {
@@ -78,8 +114,8 @@ namespace FantasyGenerator.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -104,9 +140,9 @@ namespace FantasyGenerator.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Profession")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<Guid>("ProfessionId")
+                        .HasMaxLength(68)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RaceId")
                         .HasMaxLength(68)
@@ -115,6 +151,8 @@ namespace FantasyGenerator.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("ProfessionId");
 
                     b.HasIndex("RaceId");
 
@@ -323,6 +361,17 @@ namespace FantasyGenerator.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FantasyGenerator.Infrastructure.Data.Content.Profession", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("FantasyGenerator.Infrastructure.Data.Models.Race", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Author")
@@ -342,6 +391,11 @@ namespace FantasyGenerator.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FantasyGenerator.Infrastructure.Data.Content.Profession", "Profession")
+                        .WithMany("Npcs")
+                        .HasForeignKey("ProfessionId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FantasyGenerator.Infrastructure.Data.Models.Race", "Race")
                         .WithMany("Npcs")
                         .HasForeignKey("RaceId")
@@ -349,6 +403,8 @@ namespace FantasyGenerator.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+
+                    b.Navigation("Profession");
 
                     b.Navigation("Race");
                 });
@@ -402,6 +458,11 @@ namespace FantasyGenerator.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FantasyGenerator.Infrastructure.Data.Content.Profession", b =>
+                {
+                    b.Navigation("Npcs");
                 });
 
             modelBuilder.Entity("FantasyGenerator.Infrastructure.Data.Models.Race", b =>

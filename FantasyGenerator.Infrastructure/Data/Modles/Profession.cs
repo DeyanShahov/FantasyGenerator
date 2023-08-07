@@ -2,38 +2,34 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FantasyGenerator.Infrastructure.Data.Models
+namespace FantasyGenerator.Infrastructure.Data.Content
 {
-    public class Race
+    public class Profession
     {
         [Key]
         [MaxLength(DataConstants.GuidMaxLength)]
-        public Guid Id { get; init; }
+        public Guid Id { get; init; } = Guid.NewGuid();
 
         [Required]
-        [MaxLength(DataConstants.Race.NameMaxLength)]
+        [MaxLength(DataConstants.Profession.NameMaxLength)]
         public string Name { get; init; }
 
         [Required]
-        [MaxLength(DataConstants.Race.DescriptionMaxLength)]
+        [MaxLength(DataConstants.Profession.NameMaxLength)]
+        public string Category { get; init; }
+
+        [Required]
+        [MaxLength(DataConstants.DescriptionMaxLength)]
         public string Description { get; init; }
 
         [Required]
-        [MaxLength(450)]
         public string AuthorId { get; init; }
 
         [ForeignKey(nameof(AuthorId))]
         public IdentityUser Author { get; init; }
 
-        [MaxLength(DataConstants.DescriptionMaxLength)]
-        public string Feats { get; init; }
-
-        [MaxLength(DataConstants.DescriptionMaxLength)]
-        public string Skills { get; init; }
+        public bool IsPublic { get; set; }
 
         public IEnumerable<Npc> Npcs { get; set; } = new List<Npc>();
-
-        public bool IsPublic { get; set; } = true;
-
     }
 }

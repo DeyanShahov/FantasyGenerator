@@ -3,7 +3,7 @@
     public class DataConstants
     {
         public const int GuidMaxLength = 68;
-        public const int Description = 500;
+        public const int DescriptionMaxLength = 500;
 
         public class User
         {

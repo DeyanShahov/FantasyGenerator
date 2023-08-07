@@ -1,4 +1,5 @@
-﻿using FantasyGenerator.Infrastructure.Data.Models;
+﻿using FantasyGenerator.Infrastructure.Data.Content;
+using FantasyGenerator.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,12 +37,15 @@ namespace FantasyGenerator.Infrastructure.Data
         public Race? Race { get; init; }
 
 
-        [MaxLength(DataConstants.Profession.NameMaxLength)]
-        public string? Profession { get; init; }
+        [MaxLength(DataConstants.GuidMaxLength)]
+        public Guid ProfessionId { get; init; }
+
+        [ForeignKey(nameof(ProfessionId))]
+        public Profession Profession { get; init; }
 
 
         [Required]
-        [MaxLength(DataConstants.Profession.DescriptionMaxLength)]
+        [MaxLength(DataConstants.DescriptionMaxLength)]
         public string Description { get; init; }
 
         [Required]
