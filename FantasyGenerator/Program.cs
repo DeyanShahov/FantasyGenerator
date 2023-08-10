@@ -1,6 +1,9 @@
+using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Infrastructure.Data;
+using FantasyGenerator.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TestWebApp.Core.Services;
 
 namespace FantasyGenerator
 {
@@ -14,6 +17,7 @@ namespace FantasyGenerator
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -21,6 +25,11 @@ namespace FantasyGenerator
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
+
+            builder.Services
+                .AddScoped<IApplicationDbRepository, ApplicationDbRepository>()
+                .AddScoped<IUserService, UserService>();
+
 
             var app = builder.Build();
 
