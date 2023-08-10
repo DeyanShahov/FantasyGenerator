@@ -40,10 +40,10 @@ namespace FantasyGenerator.Controllers
 
             //if (!roleList.Any(r => r.Name == UserConstants.Roles.Administrator)) return Redirect("/");
 
-            var userForAdmin = await _userService.GetUsers();
+            //var userForAdmin = await _userService.GetUsers();
 
-            var user = await _userManager.FindByEmailAsync(userForAdmin.First().Email);
-            await _userManager.AddToRoleAsync(user, UserConstants.Roles.Administrator);
+            //var user = await _userManager.FindByEmailAsync(userForAdmin.First().Email);
+            //await _userManager.AddToRoleAsync(user, UserConstants.Roles.Administrator);
 
             return Ok();
         }

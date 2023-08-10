@@ -10,7 +10,7 @@ using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models;
 using FantasyGenerator.Infrastructure.Data.Repositories;
 
-namespace TestWebApp.Core.Services
+namespace FantasyGenerator.Core.Services
 {
     public class UserService : IUserService
     {
