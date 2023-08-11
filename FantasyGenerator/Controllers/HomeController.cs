@@ -16,7 +16,7 @@ namespace FantasyGenerator.Controllers
         }
 
 
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             if (User.IsInRole(UserConstants.Roles.Administrator))
