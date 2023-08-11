@@ -26,12 +26,12 @@ namespace FantasyGenerator.Controllers
             return View();
         }
 
-        [Authorize(Roles = UserConstants.Roles.Administrator)]
+        //[Authorize(Roles = UserConstants.Roles.Administrator)]
         public async Task<IActionResult> ManageUsers()
         {
             var users = await _userService.GetUsers();
 
-            return Ok();
+            return Ok(users);
         }
 
         public async Task<IActionResult> SetAdmin()

@@ -37,27 +37,27 @@ namespace FantasyGenerator.Core.Services
                 .ToListAsync();
         }
 
-        //public async Task<UserEditViewModel> GetUsersForEdit(string id)
-        //{
-        //    var user = await repo.GetByIdAsync<IdentityUser>(id);
+        public async Task<UserEditViewModel> GetUsersForEdit(string id)
+        {
+            var user = await repo.GetByIdAsync<IdentityUser>(id);
 
-        //    return new UserEditViewModel() {Id = user.Id, Email = user.Email, PhoneNumber = user.PhoneNumber };
-        //}
+            return new UserEditViewModel() { Id = user.Id, Email = user.Email, PhoneNumber = user.PhoneNumber };
+        }
 
-        //public async Task<bool> UpdateUser(UserEditViewModel model)
-        //{
-        //    bool result = false;
-        //    var user = await repo.GetByIdAsync<IdentityUser>(model.Id);
+        public async Task<bool> UpdateUser(UserEditViewModel model)
+        {
+            bool result = false;
+            var user = await repo.GetByIdAsync<IdentityUser>(model.Id);
 
-        //    if (user != null)
-        //    {
-        //        user.Email = model.Email;
-        //        user.PhoneNumber = model.PhoneNumber;
+            if (user != null)
+            {
+                user.Email = model.Email;
+                user.PhoneNumber = model.PhoneNumber;
 
-        //        await repo.SaveChangesAsync();
-        //        result = true;
-        //    }
-        //    return result;
-        //}
+                await repo.SaveChangesAsync();
+                result = true;
+            }
+            return result;
+        }
     }
 }

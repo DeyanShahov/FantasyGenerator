@@ -8,9 +8,9 @@ namespace FantasyGenerator.Core.Contracts
     {
         Task<IEnumerable<UserListViewModel>> GetUsers();
 
-        //Task<UserEditViewModel> GetUsersForEdit(string id);
+        Task<UserEditViewModel> GetUsersForEdit(string id);
 
-        //Task<bool> UpdateUser(UserEditViewModel model);
+        Task<bool> UpdateUser(UserEditViewModel model);
 
         Task<IdentityUser> GetUserById(string id);
     }
