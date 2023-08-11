@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-//using System.Web.Mvc;
 using FantasyGenerator.Core.Models;
 
 namespace FantasyGenerator.Core.Contracts

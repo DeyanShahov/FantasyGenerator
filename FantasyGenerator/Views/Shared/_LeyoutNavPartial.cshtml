@@ -1,0 +1,22 @@
+﻿@using FantasyGenerator.Core.Constants;
+
+@if(User.IsInRole(UserConstants.Roles.Administrator))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Admin" asp-controller="User" asp-action="manageusers">Edit Users</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </li>
+}
+
+
