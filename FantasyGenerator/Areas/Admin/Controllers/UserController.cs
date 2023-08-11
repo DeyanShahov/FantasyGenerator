@@ -85,6 +85,13 @@ namespace FantasyGenerator.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Roles(UserRolesViewModel model)
+        {
+
+            return Ok(model);
+        }
+
         public async Task<IActionResult> CreateRole()
         {
             //await _roleManager.CreateAsync(new IdentityRole { Name = "Administrator" });
