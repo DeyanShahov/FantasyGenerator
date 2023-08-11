@@ -1,4 +1,6 @@
-﻿using FantasyGenerator.Models;
+﻿using FantasyGenerator.Core.Constants;
+using FantasyGenerator.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,8 +15,15 @@ namespace FantasyGenerator.Controllers
             _logger = logger;
         }
 
+
+        [Authorize]
         public IActionResult Index()
         {
+            if (User.IsInRole(UserConstants.Roles.Administrator))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             return View();
         }
 
