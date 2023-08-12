@@ -9,16 +9,19 @@ using System.Threading.Tasks;
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models;
 using FantasyGenerator.Infrastructure.Data.Repositories;
+using static FantasyGenerator.Infrastructure.Data.DataConstants;
 
 namespace FantasyGenerator.Core.Services
 {
     public class UserService : IUserService
     {
         private readonly IApplicationDbRepository repo;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public UserService(IApplicationDbRepository repo)
+        public UserService(IApplicationDbRepository repo, UserManager<IdentityUser> userManager)
         {
             this.repo = repo;
+            _userManager = userManager;
         }
 
         public async Task<IdentityUser> GetUserById(string id)
@@ -28,13 +31,16 @@ namespace FantasyGenerator.Core.Services
 
         public async Task<IEnumerable<UserListViewModel>> GetUsers()
         {
-            return await repo.All<IdentityUser>()
-                .Select(u => new UserListViewModel()
-                {
-                    Email = u.Email,
-                    Id = u.Id
-                })
-                .ToListAsync();
+            var users = await repo.All<IdentityUser>().ToListAsync();
+
+            var result = users.Select(u => new UserListViewModel()
+            {
+                Email = u.Email,
+                Id = u.Id,
+                Role = string.Join(", ",  _userManager.GetRolesAsync(u).Result)
+            });
+
+            return result;
         }
 
         public async Task<UserEditViewModel> GetUsersForEdit(string id)

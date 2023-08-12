@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-//using System.Web.Mvc;
 using FantasyGenerator.Core.Constants;
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static FantasyGenerator.Core.Constants.UserConstants;
 
 namespace FantasyGenerator.Areas.Admin.Controllers
 {
@@ -65,7 +65,6 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 
         public async Task<IActionResult> Roles(string id)
         {
-            //var roleList = await _roleManager.Roles.ToListAsync();
             var user = await _userService.GetUserById(id);
             var model = new UserRolesViewModel()
             {
@@ -75,11 +74,11 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 
             ViewBag.RoleItems = _roleManager.Roles
                 .ToList()
-                .Select(r => new SelectListItem()
+                .Select( r => new SelectListItem()
                 {
                     Text = r.Name,
                     Value = r.Id,
-                    Selected = _userManager.IsInRoleAsync(user, r.Name).Result
+                    Selected =  _userManager.IsInRoleAsync(user, r.Name).Result
                 });
 
             return View(model);
@@ -88,8 +87,16 @@ namespace FantasyGenerator.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Roles(UserRolesViewModel model)
         {
+            var user = await _userService.GetUserById(model.UserId);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, userRoles);
+            if (model.RoleIds?.Length > 0) 
+            {
+                var roles = await _roleManager.Roles.Where(r => model.RoleIds.Contains(r.Id)).Select(r => r.Name).ToListAsync();
 
-            return Ok(model);
+                await _userManager.AddToRolesAsync(user, roles);
+            }
+            return RedirectToAction(nameof(ManageUsers));
         }
 
         public async Task<IActionResult> CreateRole()
