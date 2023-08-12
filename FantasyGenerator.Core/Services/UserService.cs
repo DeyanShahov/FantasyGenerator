@@ -1,15 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using System.Web.Mvc;
+﻿
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models;
 using FantasyGenerator.Infrastructure.Data.Repositories;
-using static FantasyGenerator.Infrastructure.Data.DataConstants;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FantasyGenerator.Core.Services
 {
@@ -35,6 +29,7 @@ namespace FantasyGenerator.Core.Services
 
             var result = users.Select(u => new UserListViewModel()
             {
+                UserName = u.UserName,
                 Email = u.Email,
                 Id = u.Id,
                 Role = string.Join(", ",  _userManager.GetRolesAsync(u).Result)

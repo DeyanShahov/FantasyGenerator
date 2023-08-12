@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using FantasyGenerator.Core.Constants;
 using Microsoft.AspNetCore.Authorization;
 using FantasyGenerator.Core.Contracts;
+using FantasyGenerator.Core.Models;
 
 namespace FantasyGenerator.Controllers
 {
@@ -26,7 +27,41 @@ namespace FantasyGenerator.Controllers
             return View();
         }
 
-        //[Authorize(Roles = UserConstants.Roles.Administrator)]
+        public async Task<IActionResult> ChangeUsername(string id)
+        {
+            var user = await _userService.GetUserById(id);
+
+            if (user == null) return View();
+
+            return View(new ChangeUsernameModel() { Id = user.Id, UserName = user.UserName});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUsername(ChangeUsernameModel model)
+        {
+            var user = await _userService.GetUserById(model.Id);
+
+            if (user != null)
+            {
+                user.UserName = "Petkan";
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    // Успешно обновен Username
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    // Грешка при обновяването на Username
+                    ModelState.AddModelError("", "Грешка при обновяването на потребителското име.");
+                    return View();
+                }
+            }
+            return View();
+        }
+
+
         public async Task<IActionResult> ManageUsers()
         {
             var users = await _userService.GetUsers();

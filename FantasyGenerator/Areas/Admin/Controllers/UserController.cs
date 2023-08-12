@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FantasyGenerator.Core.Contracts;
+using FantasyGenerator.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using FantasyGenerator.Core.Constants;
-using FantasyGenerator.Core.Contracts;
-using FantasyGenerator.Core.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using static FantasyGenerator.Core.Constants.UserConstants;
+using Microsoft.EntityFrameworkCore;
 
 namespace FantasyGenerator.Areas.Admin.Controllers
 {
@@ -30,6 +26,7 @@ namespace FantasyGenerator.Areas.Admin.Controllers
         {
             return View();
         }
+
 
         public async Task<IActionResult> ManageUsers()
         {

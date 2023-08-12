@@ -1,0 +1,70 @@
+﻿@page
+@using FantasyGenerator.Core.Models;
+@model ChangeUsernameModel
+@{
+    ViewData["Title"] = "Change Username";
+}
+
+<h3>@ViewData["Title"]</h3>
+@*<partial name="_StatusMessage" for="StatusMessage" />*@
+<div class="row">
+    <div class="col-md-6">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="UserName" value="@Model.UserName" />
+        <form id="username" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating input-group">
+                <input asp-for="UserName" class="form-control" value="@Model.UserName" disabled />
+                <div class="input-group-append">
+                    <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                </div>
+                <label asp-for="UserName" class="form-label"></label>
+            </div>
+            <div class="form-floating">
+                <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="UserName" class="form-label"></label>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <button id="change-username-button" type="submit" class="w-100 btn btn-lg btn-primary">Change Username</button>
+        </form>
+    </div>
+</div>
+
+@*<div class="col-md-9">
+
+    <h3>Manage Email</h3>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <form id="email-form" method="post" novalidate="novalidate">
+                <div class="text-danger validation-summary-valid" data-valmsg-summary="true">
+                    <ul>
+                        <li style="display:none"></li>
+                    </ul>
+                </div>
+                <div class="form-floating input-group">
+                    <input class="form-control" disabled="" type="text" id="Username" name="Username" value="dean82@abv.bg">
+                    <div class="input-group-append">
+                        <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                    </div>
+                    <label class="form-label" for="Email">Email</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" autocomplete="email" aria-required="true" type="email" data-val="true" data-val-email="The New email field is not a valid e-mail address." data-val-required="The New email field is required." id="Input_NewEmail" name="Input.NewEmail" value="dean82@abv.bg">
+                    <label class="form-label" for="Input_NewEmail">New email</label>
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Input.NewEmail" data-valmsg-replace="true"></span>
+                </div>
+                <button id="change-username-button" type="submit" class="w-100 btn btn-lg btn-primary" >Change username</button>*@
+                @*<button id="change-email-button" type="submit" class="w-100 btn btn-lg btn-primary" formaction="/Identity/Account/Manage/Email?handler=ChangeEmail">Change email</button>
+                @*<input name="__RequestVerificationToken" type="hidden" value="CfDJ8CdLVkGTxqFMloIT_Ung2qgxPgkkJ4hPNs-_qzi0AwPAw5B4jJRho4zlM_zz0gHf2HpOaGThclpED_hD-evX_-5aZVwSHd8VrhMHBNiHhYarwswR2sQLH_G_y1J7Q5CxU9-YXMgHnpofU5i199NaVK-X9NIzwEXyLmneOBv9LfPMSjFK2Qg1rpB8t74RJ3HdLw">*@
+@*            </form>
+        </div>
+    </div>
+
+
+</div>*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
