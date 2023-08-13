@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using FantasyGenerator.Core.Contracts;
+using FantasyGenerator.Core.Constants;
 
 namespace FantasyGenerator.Areas.Identity.Pages.Account
 {
