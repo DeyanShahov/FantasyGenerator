@@ -22,9 +22,9 @@ namespace FantasyGenerator.Core.Services
             string error = null;
 
             //proverka za validnost na modela
-            var (isValid, validationError) = validationService.ValidateModel(model);
+            //var (isValid, validationError) = validationService.ValidateModel(model);
 
-            if (!isValid) return validationError;
+            //if (!isValid) return validationError;
 
             Race race = new Race()
             {
