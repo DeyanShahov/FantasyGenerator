@@ -4,16 +4,18 @@ using FantasyGenerator.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FantasyGenerator.Infrastructure.Data
+namespace FantasyGenerator.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230814090948_AddingDefaultUserRole")]
+    partial class AddingDefaultUserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,23 +285,6 @@ namespace FantasyGenerator.Infrastructure.Data
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "0bb5d373-977e-46ae-9763-efe5a6ed1ecb",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "fd3af8c1-8f16-478a-9315-b4fc59dd563f",
-                            Email = "baseuser@baseuser.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = true,
-                            NormalizedEmail = "BASEUSER@BASEUSER.COM",
-                            NormalizedUserName = "BASEUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKTaDGVGMc4iTM0t93yYVAaQPJyV/157OuV3+Pf2AJCodBSQl9+zLTdK76fKVlT9WQ==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "BaseUser"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>

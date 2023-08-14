@@ -1,10 +1,9 @@
 using FantasyGenerator.Core.Contracts;
+using FantasyGenerator.Core.Services;
 using FantasyGenerator.Infrastructure.Data;
 using FantasyGenerator.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using FantasyGenerator.Core.Services;
-using FantasyGenerator.Extensions;
 
 namespace FantasyGenerator
 {
