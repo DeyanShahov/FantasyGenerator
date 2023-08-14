@@ -80,7 +80,7 @@
 
         public class DefaultUserRole
         {
-            public const string UserId = "150fb092-25dd-42fa-8e64-d461cfbc95c1";
+            public const string RoleId = "150fb092-25dd-42fa-8e64-d461cfbc95c1";
             public const string ConcurrencyStamp = "5f6a48ef-0337-4981-ba78-7f6a9afb08b7";
         }
 

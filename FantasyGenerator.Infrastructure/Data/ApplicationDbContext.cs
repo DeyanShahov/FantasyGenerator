@@ -22,6 +22,14 @@ namespace FantasyGenerator.Infrastructure.Data
             builder.ApplyConfiguration(new IdentityRoleConfiguration());
             builder.ApplyConfiguration(new IdentityUserConfiguration());
 
+            builder.Entity<IdentityUserRole<string>>()
+                .HasData(new IdentityUserRole<string>
+                {
+                    UserId = DataConstants.DefaultUser.UserId,
+                    RoleId = DataConstants.DefaultUserRole.RoleId
+                });
+
+
             builder
                 .Entity<Npc>()
                 .HasOne(n => n.Race)
@@ -52,7 +60,7 @@ namespace FantasyGenerator.Infrastructure.Data
         {
             var adminSeedRole = new IdentityRole
             {
-                Id = DataConstants.DefaultUserRole.UserId,
+                Id = DataConstants.DefaultUserRole.RoleId,
                 Name = "DefaultUser",
                 NormalizedName = "DefaultUser".ToUpper(),
                 ConcurrencyStamp = DataConstants.DefaultUserRole.ConcurrencyStamp
