@@ -1,14 +1,17 @@
 ﻿@using FantasyGenerator.Core.Models.Race;
+@using Microsoft.AspNetCore.Identity;
 @model RaceCreateViewModel
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Create new Race";
+    var user = await UserManager.FindByNameAsync(User.Identity?.Name);
 }
 
 <link rel="stylesheet" href="/text.css" type="text/css" />
 <h1 class="text-center">@ViewData["Title"]</h1>
 <form class="mx-auto half-width col-5" method="post">
-    @*<input type="hidden" name="AuthorId" value="@Au" />*@
+    <input type="hidden" name="AuthorId" value="@user.Id" />
     <div class="top-border-line primary-separator"></div>
     <div class="form-group">
         <label for="name">Name</label>

@@ -36,7 +36,8 @@ namespace FantasyGenerator.Controllers
 
             string isError = await _roleService.CreateNewRace(model);
 
-            if (isError == null) return Redirect("/");
+            if (isError == null) return RedirectToAction(nameof(CreateNewRace)); //return Redirect("/");
+
 
             var errorModel = new ErrorViewModel
             {
