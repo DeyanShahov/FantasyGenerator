@@ -1,6 +1,7 @@
 ﻿using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Race;
 using FantasyGenerator.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FantasyGenerator.Controllers
@@ -8,10 +9,12 @@ namespace FantasyGenerator.Controllers
     public class RaceController : BaseController
     {
         private readonly IRaceService _roleService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public RaceController(IRaceService roleService)
+        public RaceController(IRaceService roleService, UserManager<IdentityUser> userManager)
         {
             _roleService = roleService;
+            _userManager = userManager;
         }
 
         //public IActionResult Index()
@@ -34,7 +37,9 @@ namespace FantasyGenerator.Controllers
 
             //return View(new { ErrorMessage = isError }, "/Error");
 
-            string isError = await _roleService.CreateNewRace(model);
+            var userId = (await _userManager.FindByNameAsync(User.Identity?.Name))?.Id;
+
+            string isError = await _roleService.CreateNewRace(model, userId);
 
             if (isError == null) return RedirectToAction(nameof(CreateNewRace)); //return Redirect("/");
 

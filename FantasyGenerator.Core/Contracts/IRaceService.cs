@@ -9,6 +9,6 @@ namespace FantasyGenerator.Core.Contracts
 {
     public interface IRaceService
     {
-         Task<string> CreateNewRace(RaceCreateViewModel model);
+         Task<string> CreateNewRace(RaceCreateViewModel model, string userId);
     }
 }

@@ -17,7 +17,7 @@ namespace FantasyGenerator.Core.Services
             this.validationService = validationService;
         }
 
-        public async Task<string> CreateNewRace(RaceCreateViewModel model)
+        public async Task<string> CreateNewRace(RaceCreateViewModel model, string userId)
         {
             string error = null;
 
@@ -32,7 +32,8 @@ namespace FantasyGenerator.Core.Services
                 Description = model.Description.Trim(),
                 Feats = model.Feats.Trim(),
                 Skills = model.Skills.Trim(),
-                AuthorId = model.AuthorId,
+                //AuthorId = model.AuthorId,
+                AuthorId = userId
             };
 
             var isContains = await repo.All<Race>()

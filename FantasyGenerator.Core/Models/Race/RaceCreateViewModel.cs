@@ -21,8 +21,8 @@ namespace FantasyGenerator.Core.Models.Race
         [MaxLength(DataConstants.DescriptionMaxLength)]
         public string Skills { get; init; }
 
-        [Required]
-        [MaxLength(450)]
-        public string AuthorId { get; init; }
+        //[Required]
+        //[MaxLength(450)]
+        //public string AuthorId { get; init; }
     }
 }
