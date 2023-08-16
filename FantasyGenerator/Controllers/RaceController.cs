@@ -27,6 +27,8 @@ namespace FantasyGenerator.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewRace(RaceCreateViewModel model)
         {
+            if (!ModelState.IsValid) return View(model);
+
             var userId = (await _userManager.FindByNameAsync(User.Identity?.Name))?.Id;
 
             string isError = await _raceService.CreateNewRace(model, userId);
@@ -36,10 +38,7 @@ namespace FantasyGenerator.Controllers
                 return RedirectToAction(nameof(ShowMyRaces), new { userId = userId});
             }
 
-            var errorModel = new ErrorViewModel
-            {
-                RequestId = isError               
-            };
+            var errorModel = new ErrorViewModel { RequestId = isError };
 
             return View("Error", errorModel);
         }
@@ -96,10 +95,7 @@ namespace FantasyGenerator.Controllers
         [HttpPost]
         public async Task<IActionResult> EditRace(RaceEditViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             try
             {

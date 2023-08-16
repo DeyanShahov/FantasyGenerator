@@ -47,16 +47,6 @@ namespace FantasyGenerator.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            //if (await _userService.UpdateUser(model)) //ViewData[MessageConstant.SuccessMessage] = "Uspeshen zapis!";
-            //{
-            //    ViewData[MessageConstant.SuccessMessage] = "Uspeshen zapis!";
-                
-            //    //ModelState.Clear();
-
-            //    //return RedirectToAction("Edit");
-            //}
-            //else ViewData[MessageConstant.ErrorMessage] = "Vaznikna greshka!";
-
             return View(model);
         }
 
@@ -84,6 +74,8 @@ namespace FantasyGenerator.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Roles(UserRolesViewModel model)
         {
+            if (!ModelState.IsValid) return View(model);
+
             var user = await _userService.GetUserById(model.UserId);
             var userRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, userRoles);
@@ -98,9 +90,10 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 
         public async Task<IActionResult> CreateRole()
         {
-            //await _roleManager.CreateAsync(new IdentityRole { Name = "Administrator" });
-            //await _roleManager.CreateAsync(new IdentityRole { Name = "User" });
-            //await _roleManager.CreateAsync(new IdentityRole { Name = "Guest" });
+            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.Administrator});
+            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.Author });
+            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.User });
+            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.Guest });
             return Ok();
         }
 

@@ -76,6 +76,8 @@
             public const int NameMaxLength = 30;
             public const int DescriptionMinLength = 10;
             public const int DescriptionMaxLength = 200;
+            public const int CategoryMinLength = 10;
+            public const int CategoryMaxLength = 200;
         }
 
         public class DefaultUserRole

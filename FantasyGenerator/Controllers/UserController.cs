@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using FantasyGenerator.Core.Constants;
-using Microsoft.AspNetCore.Authorization;
-using FantasyGenerator.Core.Contracts;
+﻿using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FantasyGenerator.Controllers
 {
@@ -39,11 +37,13 @@ namespace FantasyGenerator.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeUsername(ChangeUsernameModel model)
         {
+            if (!ModelState.IsValid) return View(model);
+
             var user = await _userService.GetUserById(model.Id);
 
             if (user != null)
             {
-                user.UserName = "Petkan";
+                //user.UserName = "Petkan";
                 var result = await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
@@ -68,29 +68,5 @@ namespace FantasyGenerator.Controllers
 
             return Ok(users);
         }
-
-        public async Task<IActionResult> SetAdmin()
-        {
-            //var roleList = await _roleManager.Roles.ToListAsync();
-
-            //if (!roleList.Any(r => r.Name == UserConstants.Roles.Administrator)) return Redirect("/");
-
-            //var userForAdmin = await _userService.GetUsers();
-
-            //var user = await _userManager.FindByEmailAsync(userForAdmin.First().Email);
-            //await _userManager.AddToRoleAsync(user, UserConstants.Roles.Administrator);
-
-            return Ok();
-        }
-
-        public async Task<IActionResult> CreateRole()
-        {
-            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.Administrator});
-            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.Author });
-            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.User });
-            //await _roleManager.CreateAsync(new IdentityRole { Name = UserConstants.Roles.Guest });
-            return Ok();
-        }
-
     }
 }

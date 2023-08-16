@@ -10,12 +10,14 @@ namespace FantasyGenerator.Core.Services
     public class UserService : IUserService
     {
         private readonly IApplicationDbRepository repo;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> userManager;
+        private readonly IValidationService validationService;
 
-        public UserService(IApplicationDbRepository repo, UserManager<IdentityUser> userManager)
+        public UserService(IApplicationDbRepository repo, UserManager<IdentityUser> userManager, IValidationService validationService)
         {
             this.repo = repo;
-            _userManager = userManager;
+            this.userManager = userManager;
+            this.validationService = validationService;
         }
 
         public async Task<IdentityUser> GetUserById(string id)
@@ -32,7 +34,7 @@ namespace FantasyGenerator.Core.Services
                 UserName = u.UserName,
                 Email = u.Email,
                 Id = u.Id,
-                Role = string.Join(", ",  _userManager.GetRolesAsync(u).Result)
+                Role = string.Join(", ",  userManager.GetRolesAsync(u).Result)
             });
 
             return result;
@@ -48,6 +50,11 @@ namespace FantasyGenerator.Core.Services
         public async Task<bool> UpdateUser(UserEditViewModel model)
         {
             bool result = false;
+
+            var (isValid, validationError) = validationService.ValidateModel(model);
+
+            if (!isValid) return result;
+
             var user = await repo.GetByIdAsync<IdentityUser>(model.Id);
 
             if (user != null)
@@ -55,8 +62,15 @@ namespace FantasyGenerator.Core.Services
                 user.Email = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
 
-                await repo.SaveChangesAsync();
-                result = true;
+                try
+                {
+                    await repo.SaveChangesAsync();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }             
             }
             return result;
         }
