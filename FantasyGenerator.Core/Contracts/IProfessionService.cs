@@ -8,12 +8,12 @@ namespace FantasyGenerator.Core.Contracts
 
         Task<IEnumerable<ProfessionListViewModel>> GetAllProfession();
 
-        //Task<IEnumerable<RaceListViewModel>> GetMyRaces(string authorId);
+        Task<IEnumerable<ProfessionListViewModel>> GetMyProfessions(string authorId);
 
-        //Task<RaceFullViewModel> RaceDetails(string raceId);
+        Task<ProfessionFullViewModel> ProfessionDetails(string professionId);
 
-        //Task<RaceEditViewModel> GetRaceForEdit(string raceId);
+        Task<ProfessionEditViewModel> GetProfessionForEdit(string professionId);
 
-        //Task<bool> UpdateRace(RaceEditViewModel model);
+        Task<bool> UpdateProfession(ProfessionEditViewModel model);
     }
 }

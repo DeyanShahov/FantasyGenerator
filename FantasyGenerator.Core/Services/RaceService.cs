@@ -111,8 +111,6 @@ namespace FantasyGenerator.Core.Services
 
         public async Task<RaceFullViewModel> RaceDetails(string raceId)
         {
-            int inter = 1;
-
             var race = await repo.All<Race>().FirstOrDefaultAsync(r => r.Id.ToString() == raceId);
 
             if (race == null) return null;
@@ -134,6 +132,10 @@ namespace FantasyGenerator.Core.Services
         public async Task<bool> UpdateRace(RaceEditViewModel model)
         {
             bool result = false;
+
+            var (isValid, validationError) = validationService.ValidateModel(model);
+
+            if (!isValid) return result;
 
             var race = await  repo.All<Race>().FirstOrDefaultAsync(r => r.Id.ToString() == model.Id);
 

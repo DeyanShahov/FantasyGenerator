@@ -71,5 +71,87 @@ namespace FantasyGenerator.Core.Services
 
             return allProf;
         }
+
+        public async Task<IEnumerable<ProfessionListViewModel>> GetMyProfessions(string authorId)
+        {
+            return await repo.All<Profession>()
+                .Where(p => p.AuthorId == authorId)
+                .Select(p => new ProfessionListViewModel()
+                {
+                    Name = p.Name,
+                    Description = p.Description,
+                    Category = p.Category,
+                    Id = p.Id.ToString()
+                })
+               .ToListAsync();
+        }
+
+        public async Task<ProfessionEditViewModel> GetProfessionForEdit(string professionId)
+        {
+            var prof = await repo.All<Profession>().FirstOrDefaultAsync(p => p.Id.ToString() == professionId);
+
+            if (prof == null) return null;
+
+            var model = new ProfessionEditViewModel()
+            {
+                Id = prof.Id.ToString(),
+                Name = prof.Name,
+                Description = prof.Description,
+                Category = prof.Category,
+                AuthorId = prof.AuthorId
+
+            };
+
+            return model;
+        }
+
+        public async Task<ProfessionFullViewModel> ProfessionDetails(string professionId)
+        {
+            var prof = await repo.All<Profession>().FirstOrDefaultAsync(p => p.Id.ToString() == professionId);
+
+            if (prof == null) return null;
+
+            var author = await userService.GetUserById(prof.AuthorId);
+
+            var viewModel = new ProfessionFullViewModel
+            {
+                Name = prof.Name,
+                Description = prof.Description,
+                Category = prof.Category,
+                Author = author.UserName,
+            };
+
+            return viewModel;
+        }
+
+        public async Task<bool> UpdateProfession(ProfessionEditViewModel model)
+        {
+            bool result = false;
+
+            var (isValid, validationError) = validationService.ValidateModel(model);
+
+            if (!isValid) return result;
+           
+            var prof = await repo.All<Profession>().FirstOrDefaultAsync(p => p.Id.ToString() == model.Id);
+
+            if (prof != null && prof.Id.ToString() == model.Id && prof.AuthorId == model.AuthorId)
+            {
+                prof.Name = model.Name;
+                prof.Description = model.Description;
+                prof.Category = model.Category;
+
+                try
+                {
+                    await repo.SaveChangesAsync();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            return result;
+        }
     }
 }
