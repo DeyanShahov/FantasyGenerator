@@ -1,8 +1,10 @@
-﻿using FantasyGenerator.Core.Contracts;
+﻿using FantasyGenerator.Core.Constants;
+using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Race;
 using FantasyGenerator.Infrastructure.Data.Models;
 using FantasyGenerator.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace FantasyGenerator.Core.Services
 {
@@ -23,10 +25,9 @@ namespace FantasyGenerator.Core.Services
         {
             string error = null;
 
-            //proverka za validnost na modela
-            //var (isValid, validationError) = validationService.ValidateModel(model);
+            var (isValid, validationError) = validationService.ValidateModel(model);
 
-            //if (!isValid) return validationError;
+            if (!isValid) return validationError;
 
             Race race = new Race()
             {
@@ -37,21 +38,22 @@ namespace FantasyGenerator.Core.Services
                 //AuthorId = model.AuthorId,
                 AuthorId = userId
             };
-
-            var isContains = await repo.All<Race>()
-                .Where(r => r.Name == race.Name)
-                .FirstOrDefaultAsync();
-
-            if (isContains != null) return "Race already exist.";
+          
 
             try
             {
+                var isContains = await repo.All<Race>()
+                .Where(r => r.Name == race.Name)
+                .FirstOrDefaultAsync();
+
+                if (isContains != null) return $"{ErrorMessages.ELEMENT_EXIST.Replace("{0}", "Race")}";
+
                 await repo.AddAsync(race);
                 await repo.SaveChangesAsync();
             }
             catch (Exception e)
             {
-                error = $"DB error: {e}";
+                error = $"{ErrorMessages.DB_ERROR}: {e}";
             }
 
             return error;
@@ -70,23 +72,21 @@ namespace FantasyGenerator.Core.Services
                 })
                 .ToListAsync();
 
-            //var author = await userService.GetUserById(race.AuthorId);
-
-            return allRaces;
+            return allRaces;       
         }
 
         public async Task<IEnumerable<RaceListViewModel>> GetMyRaces(string authorId)
         {
             return await repo.All<Race>()
-                 .Where(r => r.AuthorId == authorId)
-                 .Select(r => new RaceListViewModel()
-                 {
-                     Name = r.Name,
-                     Description = r.Description,
-                     //AuthorId = r.AuthorId,
-                     Id = r.Id.ToString()
-                 })
-                .ToListAsync();
+                .Where(r => r.AuthorId == authorId)
+                .Select(r => new RaceListViewModel()
+                {
+                    Name = r.Name,
+                    Description = r.Description,
+                    //AuthorId = r.AuthorId,
+                    Id = r.Id.ToString()
+                })
+               .ToListAsync();    
         }
 
         public async Task<RaceEditViewModel> GetRaceForEdit(string raceId)
@@ -135,10 +135,7 @@ namespace FantasyGenerator.Core.Services
         {
             bool result = false;
 
-            //var race = await repo.GetByIdAsync<Race>(model.Id);
             var race = await  repo.All<Race>().FirstOrDefaultAsync(r => r.Id.ToString() == model.Id);
-
-
 
             if (race != null && race.Id.ToString() == model.Id && race.AuthorId == model.AuthorId)
             {
@@ -147,11 +144,20 @@ namespace FantasyGenerator.Core.Services
                 race.Feats = model.Feats;
                 race.Skills = model.Skills;
 
-                await repo.SaveChangesAsync();
-                result = true;
+                try
+                {
+                    await repo.SaveChangesAsync();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }               
             }
 
             return result;
         }
     }
+
+
 }

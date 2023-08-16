@@ -1,4 +1,5 @@
-﻿using FantasyGenerator.Core.Contracts;
+﻿using FantasyGenerator.Core.Constants;
+using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Race;
 using FantasyGenerator.Models;
 using Microsoft.AspNetCore.Identity;
@@ -17,10 +18,6 @@ namespace FantasyGenerator.Controllers
             _userManager = userManager;
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
         public async Task<IActionResult> CreateNewRace()
         {
             return View();
@@ -30,20 +27,12 @@ namespace FantasyGenerator.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewRace(RaceCreateViewModel model)
         {
-
-            //string isError = productService.Create(model);
-
-            //if (isError == null) return Redirect("/");
-
-            //return View(new { ErrorMessage = isError }, "/Error");
-
             var userId = (await _userManager.FindByNameAsync(User.Identity?.Name))?.Id;
 
             string isError = await _raceService.CreateNewRace(model, userId);
 
             if (isError == null) 
             {
-                //return RedirectToAction(nameof(CreateNewRace)); //return Redirect("/");
                 return RedirectToAction(nameof(ShowMyRaces), new { userId = userId});
             }
 
@@ -53,36 +42,41 @@ namespace FantasyGenerator.Controllers
             };
 
             return View("Error", errorModel);
-
-            
-
-            //try
-            //{
-            //    await _roleService.CreateNewRace(model);
-            //}
-            //catch (Exception e)
-            //{
-            //    return BadRequest(e.Message);
-            //}
-
-            //return Ok();
         }
 
 
         public async Task<IActionResult> ShowAllRaces()
-        {
-            var races = await _raceService.GetAllRaces();
+        {          
+            try
+            {
+                var races = await _raceService.GetAllRaces();
 
-            return View(races);
+                return View(races);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
         }
+
 
         public async Task<IActionResult> ShowMyRaces(string userId)
         {
-            //var userId = Request.Query["userId"];
+            //var userId = Request.Query["userId"];         
+            try
+            {
+                var races = await _raceService.GetMyRaces(userId);
 
-            var races = await _raceService.GetMyRaces(userId);
+                return View(races);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
 
-            return View(races);
+                return View("Error", errorModel);
+            }
         }
 
         public async Task<IActionResult> ShowFullRaceDescriptions(string raceId)
@@ -107,20 +101,26 @@ namespace FantasyGenerator.Controllers
                 return View(model);
             }
 
-            if (await _raceService.UpdateRace(model))
+            try
             {
-                ViewData["OK"] = "Save to DB success";
+                if (await _raceService.UpdateRace(model))
+                {
+                    ViewData["OK"] = ErrorMessages.DB_SAVE_OK;
+                }
+                else
+                {
+                    ViewData["ERROR"] = ErrorMessages.DB_ERROR;
+                }
+
+                return RedirectToAction(nameof(ShowMyRaces), new { userId = model.AuthorId });
             }
-            else
+            catch (Exception ex)
             {
-                ViewData["ERROR"] = "Error to save in DB";
-            }
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
 
-            //return RedirectToAction(nameof(ShowMyRaces));
-            return RedirectToAction(nameof(ShowMyRaces), new { userId = model.AuthorId });
-
+                return View("Error", errorModel);
+            }          
         }
-
     }
 }
 
