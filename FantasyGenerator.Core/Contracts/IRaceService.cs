@@ -16,5 +16,7 @@ namespace FantasyGenerator.Core.Contracts
 
         Task<bool> UpdateRace (RaceEditViewModel model);
 
+        Task<bool> DeleteRace(string raceId);
+
     }
 }

@@ -1,5 +1,8 @@
-﻿using FantasyGenerator.Core.Contracts;
+﻿using FantasyGenerator.Core.Constants;
+using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models;
+using FantasyGenerator.Core.Services;
+using FantasyGenerator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,17 +12,20 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 {
     public class UserController : BaseController
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> userManager;
 
-        private readonly IUserService _userService;
+        private readonly IUserService userService;
 
-        public UserController(RoleManager<IdentityRole> roleManager, IUserService userService, UserManager<IdentityUser> userManager)
+        private readonly IRaceService raceService;
+
+        public UserController(RoleManager<IdentityRole> roleManager, IUserService userService, UserManager<IdentityUser> userManager, IRaceService raceService)
         {
-            _roleManager = roleManager;
-            _userService = userService;
-            _userManager = userManager;
+            this.roleManager = roleManager;
+            this.userService = userService;
+            this.userManager = userManager;
+            this.raceService = raceService;
         }
 
         public IActionResult Index()
@@ -30,14 +36,14 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 
         public async Task<IActionResult> ManageUsers()
         {
-            var users = await _userService.GetUsers();
+            var users = await userService.GetUsers();
 
             return View(users);
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            var model = await _userService.GetUsersForEdit(id);
+            var model = await userService.GetUsersForEdit(id);
 
             return View(model);
         }
@@ -52,20 +58,20 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 
         public async Task<IActionResult> Roles(string id)
         {
-            var user = await _userService.GetUserById(id);
+            var user = await userService.GetUserById(id);
             var model = new UserRolesViewModel()
             {
                 UserId = user.Id,
                 Email = user.Email,
             };
 
-            ViewBag.RoleItems = _roleManager.Roles
+            ViewBag.RoleItems = roleManager.Roles
                 .ToList()
                 .Select( r => new SelectListItem()
                 {
                     Text = r.Name,
                     Value = r.Id,
-                    Selected =  _userManager.IsInRoleAsync(user, r.Name).Result
+                    Selected =  userManager.IsInRoleAsync(user, r.Name).Result
                 });
 
             return View(model);
@@ -76,16 +82,55 @@ namespace FantasyGenerator.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var user = await _userService.GetUserById(model.UserId);
-            var userRoles = await _userManager.GetRolesAsync(user);
-            await _userManager.RemoveFromRolesAsync(user, userRoles);
+            var user = await userService.GetUserById(model.UserId);
+            var userRoles = await userManager.GetRolesAsync(user);
+            await userManager.RemoveFromRolesAsync(user, userRoles);
             if (model.RoleIds?.Length > 0) 
             {
-                var roles = await _roleManager.Roles.Where(r => model.RoleIds.Contains(r.Id)).Select(r => r.Name).ToListAsync();
+                var roles = await roleManager.Roles.Where(r => model.RoleIds.Contains(r.Id)).Select(r => r.Name).ToListAsync();
 
-                await _userManager.AddToRolesAsync(user, roles);
+                await userManager.AddToRolesAsync(user, roles);
             }
             return RedirectToAction(nameof(ManageUsers));
+        }
+
+        public async Task<IActionResult> ShowAllRaces()
+        {
+            try
+            {
+                var races = await raceService.GetAllRaces();
+
+                return View(races);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
+        }
+
+        public async Task<IActionResult> DeleteRace(string raceId)
+        {
+            try
+            {
+                if (await raceService.DeleteRace(raceId))
+                {
+                    ViewData["OK"] = ErrorMessages.DB_SAVE_OK;
+                }
+                else
+                {
+                    ViewData["ERROR"] = ErrorMessages.DB_ERROR;
+                }
+
+                return RedirectToAction(nameof(ShowAllRaces), "Race", new { area = "" });
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
         }
 
         public async Task<IActionResult> CreateRole()

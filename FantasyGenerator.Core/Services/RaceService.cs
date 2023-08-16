@@ -59,6 +59,23 @@ namespace FantasyGenerator.Core.Services
             return error;
         }
 
+        public async Task<bool> DeleteRace(string raceId)
+        {
+            var race = await repo.All<Race>().FirstOrDefaultAsync(r => r.Id.ToString() == raceId);
+            try
+            {
+                await repo.DeleteAsync<Race>(race.Id);
+                await repo.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+               return false;
+            }
+           
+        }
+
         public async Task<IEnumerable<RaceListViewModel>> GetAllRaces()
         {
             var allRaces = await repo.All<Race>()
