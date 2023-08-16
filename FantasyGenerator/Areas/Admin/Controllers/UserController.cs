@@ -20,12 +20,17 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 
         private readonly IRaceService raceService;
 
-        public UserController(RoleManager<IdentityRole> roleManager, IUserService userService, UserManager<IdentityUser> userManager, IRaceService raceService)
+        private readonly IProfessionService professionService;
+
+        public UserController(RoleManager<IdentityRole> roleManager
+            , IUserService userService, UserManager<IdentityUser> userManager
+            , IRaceService raceService, IProfessionService professionService)
         {
             this.roleManager = roleManager;
             this.userService = userService;
             this.userManager = userManager;
             this.raceService = raceService;
+            this.professionService = professionService;
         }
 
         public IActionResult Index()
@@ -124,6 +129,45 @@ namespace FantasyGenerator.Areas.Admin.Controllers
                 }
 
                 return RedirectToAction(nameof(ShowAllRaces), "Race", new { area = "" });
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
+        }
+
+        public async Task<IActionResult> ShowAllProfession()
+        {
+            try
+            {
+                var prof = await professionService.GetAllProfession();
+
+                return View(prof);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
+        }
+
+        public async Task<IActionResult> DeleteProfession(string professionId)
+        {
+            try
+            {
+                if (await professionService.DeleteProfession(professionId))
+                {
+                    ViewData["OK"] = ErrorMessages.DB_SAVE_OK;
+                }
+                else
+                {
+                    ViewData["ERROR"] = ErrorMessages.DB_ERROR;
+                }
+
+                return RedirectToAction(nameof(ShowAllProfession), "Profession", new { area = "" });
             }
             catch (Exception ex)
             {

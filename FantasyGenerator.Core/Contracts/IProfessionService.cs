@@ -15,5 +15,7 @@ namespace FantasyGenerator.Core.Contracts
         Task<ProfessionEditViewModel> GetProfessionForEdit(string professionId);
 
         Task<bool> UpdateProfession(ProfessionEditViewModel model);
+
+        Task<bool> DeleteProfession(string professionId);
     }
 }

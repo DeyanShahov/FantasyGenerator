@@ -4,7 +4,6 @@ using FantasyGenerator.Core.Models.Race;
 using FantasyGenerator.Infrastructure.Data.Models;
 using FantasyGenerator.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace FantasyGenerator.Core.Services
 {
@@ -60,10 +59,10 @@ namespace FantasyGenerator.Core.Services
         }
 
         public async Task<bool> DeleteRace(string raceId)
-        {
-            var race = await repo.All<Race>().FirstOrDefaultAsync(r => r.Id.ToString() == raceId);
+        {        
             try
             {
+                var race = await repo.All<Race>().FirstOrDefaultAsync(r => r.Id.ToString() == raceId);
                 await repo.DeleteAsync<Race>(race.Id);
                 await repo.SaveChangesAsync();
 
@@ -72,8 +71,7 @@ namespace FantasyGenerator.Core.Services
             catch (Exception)
             {
                return false;
-            }
-           
+            }         
         }
 
         public async Task<IEnumerable<RaceListViewModel>> GetAllRaces()

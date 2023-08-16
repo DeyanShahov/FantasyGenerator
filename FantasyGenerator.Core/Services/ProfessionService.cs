@@ -1,7 +1,6 @@
 ﻿using FantasyGenerator.Core.Constants;
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Profession;
-using FantasyGenerator.Core.Models.Race;
 using FantasyGenerator.Infrastructure.Data.Content;
 using FantasyGenerator.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +53,22 @@ namespace FantasyGenerator.Core.Services
             }
 
             return error;
+        }
+
+        public async Task<bool> DeleteProfession(string professionId)
+        {
+            try
+            {
+                var prof = await repo.All<Profession>().FirstOrDefaultAsync(p => p.Id.ToString() == professionId);
+                await repo.DeleteAsync<Profession>(prof.Id);
+                await repo.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<IEnumerable<ProfessionListViewModel>> GetAllProfession()
