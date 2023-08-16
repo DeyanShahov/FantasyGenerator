@@ -66,59 +66,6 @@
             &copy; 2023 - FantasyGenerator - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    @*
-    <!-- REQUIRED SCRIPTS -->
-    <!-- jQuery -->
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/js/adminlte.min.js"></script>
-    <script src="~/plugins/toastr/toastr.min.js"></script>
-    <partial name="_UserMessages" />*@
-    @*@await RenderSectionAsync("Scripts", false)*@
-
-
-
-
-
-
-    @*<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var firstNavLinks = document.querySelectorAll('#firstNavBar a.nav-link');
-            var secondNavBars = document.querySelectorAll('.secondNavBar');
-
-            firstNavLinks.forEach(function (link) {
-                link.addEventListener('click', function () {
-                    var selectedSecondNavBar;
-
-                    console.log("opaaa")
-
-                    if (link.textContent.trim() === 'Race') {
-                        selectedSecondNavBar = document.querySelector('#secondNavBar1');
-                        console.log("Race")
-                    } else if (link.textContent.trim() === 'Privacy') {
-                        selectedSecondNavBar = document.querySelector('#secondNavBar2');
-                        console.log("Privacy")
-                    }
-
-                    console.log(selectedSecondNavBar)
-
-                    secondNavBars.forEach(function (navBar) {
-                        if (navBar === selectedSecondNavBar) {
-                            navBar.style.display = 'block';
-                            document.getElementById('secondNavBar1').style.display = 'block';
-
-                        } else {
-                            navBar.style.display = 'none';
-                            document.getElementById('secondNavBar2').style.display = 'none';
-                        }
-                    });
-                });
-            });
-        });
-    </script>
-*@
 
 
 

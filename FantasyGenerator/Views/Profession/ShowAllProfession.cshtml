@@ -1,0 +1,64 @@
+﻿@using FantasyGenerator.Core.Models.Profession;
+@model IEnumerable<ProfessionListViewModel>
+@{
+}
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 class="card-title">All Profession</h3>
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control" placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Author</th>
+                            <th>Short Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            @foreach (var element in Model)
+                            {
+                                <tr>
+                                    <td>@element.Name</td>
+                                    <td>@element.Category</td>
+                                    <td>@element.AuthorName</td>
+                                    <td>@element.Description</td>
+                                    <td>
+                                        <a asp-area="" asp-controller="Profession" asp-action="ShowFullProfessionDescriptions" asp-route-raceId="@element.Id" class="btn btn-block btn-outline-primary">All details</a>                                      
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <span style="font-size: 24px; color: red"> No race found ...</span>
+    }
+</div>
