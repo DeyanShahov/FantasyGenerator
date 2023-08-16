@@ -8,12 +8,12 @@ namespace FantasyGenerator.Controllers
 {
     public class RaceController : BaseController
     {
-        private readonly IRaceService _roleService;
+        private readonly IRaceService _raceService;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public RaceController(IRaceService roleService, UserManager<IdentityUser> userManager)
+        public RaceController(IRaceService raceService, UserManager<IdentityUser> userManager)
         {
-            _roleService = roleService;
+            _raceService = raceService;
             _userManager = userManager;
         }
 
@@ -39,10 +39,13 @@ namespace FantasyGenerator.Controllers
 
             var userId = (await _userManager.FindByNameAsync(User.Identity?.Name))?.Id;
 
-            string isError = await _roleService.CreateNewRace(model, userId);
+            string isError = await _raceService.CreateNewRace(model, userId);
 
-            if (isError == null) return RedirectToAction(nameof(CreateNewRace)); //return Redirect("/");
-
+            if (isError == null) 
+            {
+                //return RedirectToAction(nameof(CreateNewRace)); //return Redirect("/");
+                return RedirectToAction(nameof(ShowMyRaces), new { userId = userId});
+            }
 
             var errorModel = new ErrorViewModel
             {
@@ -51,6 +54,7 @@ namespace FantasyGenerator.Controllers
 
             return View("Error", errorModel);
 
+            
 
             //try
             //{
@@ -63,5 +67,60 @@ namespace FantasyGenerator.Controllers
 
             //return Ok();
         }
+
+
+        public async Task<IActionResult> ShowAllRaces()
+        {
+            var races = await _raceService.GetAllRaces();
+
+            return View(races);
+        }
+
+        public async Task<IActionResult> ShowMyRaces(string userId)
+        {
+            //var userId = Request.Query["userId"];
+
+            var races = await _raceService.GetMyRaces(userId);
+
+            return View(races);
+        }
+
+        public async Task<IActionResult> ShowFullRaceDescriptions(string raceId)
+        {
+            var race = await _raceService.RaceDetails(raceId);
+
+            return View(race);
+        }
+
+        public async Task<IActionResult> EditRace(string raceId)
+        {
+            var model = await _raceService.GetRaceForEdit(raceId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRace(RaceEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (await _raceService.UpdateRace(model))
+            {
+                ViewData["OK"] = "Save to DB success";
+            }
+            else
+            {
+                ViewData["ERROR"] = "Error to save in DB";
+            }
+
+            //return RedirectToAction(nameof(ShowMyRaces));
+            return RedirectToAction(nameof(ShowMyRaces), new { userId = model.AuthorId });
+
+        }
+
     }
 }
+

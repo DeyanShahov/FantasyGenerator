@@ -1,0 +1,53 @@
+﻿@using FantasyGenerator.Core.Models.Race;
+@model RaceEditViewModel
+
+@{
+    ViewData["Title"] = "Edit yours Race";
+    //var user = await UserManager.FindByNameAsync(User.Identity?.Name);
+}
+
+<link rel="stylesheet" href="/text.css" type="text/css" />
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <section>
+            <form class="mx-auto half-width col-5" method="post">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="AuthorId" value="@Model.AuthorId" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @*<input type="hidden" name="AuthorId" value="@user.Id" />*@
+                <div class="top-border-line primary-separator"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Name" class="form-control" autocomplete="name" aria-required="true" placeholder=""  value="@Model.Name"/>
+                    <label asp-for="Name" class="form-label"></label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Description" class="form-control" autocomplete="description" aria-required="true" placeholder="" value="@Model.Description"/>
+                    <label asp-for="Description" class="form-label"></label>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Feats" class="form-control" autocomplete="feats" aria-required="true" placeholder="" value="@Model.Feats"/>
+                    <label asp-for="Feats" class="form-label"></label>
+                    <span asp-validation-for="Feats" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Skills" class="form-control" autocomplete="skills" aria-required="true" placeholder="" value="@Model.Skills"/>
+                    <label asp-for="Skills" class="form-label"></label>
+                    <span asp-validation-for="Skills" class="text-danger"></span>
+                </div>
+                <div class="top-border-line primary-separator"></div>
+                <div class="button-holder d-flex justify-content-center">
+                    <button type="submit" class="btn SMS-bg-color">Edit</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

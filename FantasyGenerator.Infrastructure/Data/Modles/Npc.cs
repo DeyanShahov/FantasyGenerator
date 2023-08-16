@@ -14,46 +14,46 @@ namespace FantasyGenerator.Infrastructure.Data
 
         [Required]
         [MaxLength(DataConstants.Npc.FirstNameMaxLength)]
-        public string FirstName { get; init; }
+        public string FirstName { get; set; }
 
         [MaxLength(DataConstants.Npc.LastNameMaxLength)]
-        public string? LastName { get; init; }
+        public string? LastName { get; set; }
 
         [MaxLength(DataConstants.NpcName.NickNamePrefixMaxLength)]
-        public string? NickNamePrefix { get; init; }
+        public string? NickNamePrefix { get; set; }
 
         [MaxLength(DataConstants.NpcName.NickNameSuffixMaxLength)]
-        public string? NickNameSuffix { get; init; }
+        public string? NickNameSuffix { get; set; }
 
-        public bool IsMale { get; init; } = true;
+        public bool IsMale { get; set; } = true;
 
 
         [Required]
         [MaxLength(DataConstants.GuidMaxLength)]
-        public Guid RaceId { get; init; }
+        public Guid RaceId { get; set; }
 
         [MaxLength(DataConstants.Race.NameMaxLength)]
         [ForeignKey(nameof(RaceId))]
-        public Race? Race { get; init; }
+        public Race? Race { get; set; }
 
 
         [MaxLength(DataConstants.GuidMaxLength)]
-        public Guid ProfessionId { get; init; }
+        public Guid ProfessionId { get; set; }
 
         [ForeignKey(nameof(ProfessionId))]
-        public Profession Profession { get; init; }
+        public Profession Profession { get; set; }
 
 
         [Required]
         [MaxLength(DataConstants.DescriptionMaxLength)]
-        public string Description { get; init; }
+        public string Description { get; set; }
 
         [Required]
         [MaxLength(450)]
-        public string AuthorId { get; init; }
+        public string AuthorId { get; set; }
 
         [ForeignKey(nameof(AuthorId))]
-        public IdentityUser Author { get; init; }
+        public IdentityUser Author { get; set; }
 
         public bool IsPublic { get; set; } = true;
     }

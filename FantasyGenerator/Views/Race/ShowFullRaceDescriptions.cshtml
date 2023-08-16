@@ -1,0 +1,23 @@
+﻿@using FantasyGenerator.Core.Models.Race;
+@model RaceFullViewModel
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">About Race: @Model.Name</h3>
+    </div>
+
+    <div class="card-body">
+        <strong><i class="fas fa-book mr-1"></i> Description</strong>
+        <p class="text-muted"> @Model.Description </p>
+        <hr>
+        <strong><i class="fas fa-map-marker-alt mr-1"></i> Feats </strong>
+        <p class="text-muted">@Model.Feats</p>
+        <hr>
+        <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+        <p class="text-muted"> @Model.Skills </p>
+        <hr>
+        <strong><i class="far fa-file-alt mr-1"></i> Author</strong>
+        <p class="text-muted">@Model.Author</p>
+    </div>
+
+</div>
