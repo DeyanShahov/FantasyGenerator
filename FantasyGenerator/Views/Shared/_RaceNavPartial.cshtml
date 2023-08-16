@@ -4,7 +4,7 @@
 
 @if (User.IsInRole(UserConstants.Roles.User))
 {
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav id="secondNavBar1" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
             @*     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FantasyGenerator</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -29,5 +29,19 @@
             
         </div>
     </nav>
+
 }
 
+
+@*<script>
+    function toggleSecondNavBar(navBarId) {
+        var secondNavBar = document.getElementById(navBarId);
+        console.log(secondNavBar)
+
+        if (secondNavBar.style.display === 'none') {
+            secondNavBar.style.display = 'block';
+        } else {
+            secondNavBar.style.display = 'none';
+        }
+    }
+</script>*@

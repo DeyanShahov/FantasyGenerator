@@ -16,7 +16,6 @@
                 <input type="hidden" name="Id" value="@Model.Id" />
                 <input type="hidden" name="AuthorId" value="@Model.AuthorId" />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @*<input type="hidden" name="AuthorId" value="@user.Id" />*@
                 <div class="top-border-line primary-separator"></div>
                 <div class="form-floating mb-3">
                     <input asp-for="Name" class="form-control" autocomplete="name" aria-required="true" placeholder=""  value="@Model.Name"/>

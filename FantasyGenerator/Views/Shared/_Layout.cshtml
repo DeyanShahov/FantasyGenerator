@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using FantasyGenerator.Core.Constants;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,7 +12,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FantasyGenerator.styles.css" asp-append-version="true" />
 
- @*   <!-- Google Font: Source Sans Pro -->
+    @*   <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
@@ -22,7 +26,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav id="firstNavBar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FantasyGenerator</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -37,7 +41,19 @@
                 </div>
             </div>
         </nav>
-        <partial name="_SecondNavPartial" />
+
+        <div id="secondNavBar1" style="display: block;">
+            <partial name="_RaceNavPartial" />
+        </div>
+        <div id="secondNavBar2" style="display: none;">
+            <partial name="_ProfessionNavPartial" />
+        </div>
+       @* <a onclick="toggleSecondNavBar('secondNavBar1')">Покажи/Скрий NavBar 1</a>
+        <a href="javascript:void(0);" onclick="toggleSecondNavBar('secondNavBar2')">Покажи/Скрий NavBar 2</a>*@
+
+        <!-- И така нататък за другите "secondNavBar" елементи -->
+
+       
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -50,7 +66,7 @@
             &copy; 2023 - FantasyGenerator - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-@*
+    @*
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="~/plugins/jquery/jquery.min.js"></script>
@@ -61,6 +77,51 @@
     <script src="~/plugins/toastr/toastr.min.js"></script>
     <partial name="_UserMessages" />*@
     @*@await RenderSectionAsync("Scripts", false)*@
+
+
+
+
+
+
+    @*<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var firstNavLinks = document.querySelectorAll('#firstNavBar a.nav-link');
+            var secondNavBars = document.querySelectorAll('.secondNavBar');
+
+            firstNavLinks.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    var selectedSecondNavBar;
+
+                    console.log("opaaa")
+
+                    if (link.textContent.trim() === 'Race') {
+                        selectedSecondNavBar = document.querySelector('#secondNavBar1');
+                        console.log("Race")
+                    } else if (link.textContent.trim() === 'Privacy') {
+                        selectedSecondNavBar = document.querySelector('#secondNavBar2');
+                        console.log("Privacy")
+                    }
+
+                    console.log(selectedSecondNavBar)
+
+                    secondNavBars.forEach(function (navBar) {
+                        if (navBar === selectedSecondNavBar) {
+                            navBar.style.display = 'block';
+                            document.getElementById('secondNavBar1').style.display = 'block';
+
+                        } else {
+                            navBar.style.display = 'none';
+                            document.getElementById('secondNavBar2').style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+*@
+
+
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
