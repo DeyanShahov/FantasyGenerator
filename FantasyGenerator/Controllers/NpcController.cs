@@ -104,5 +104,37 @@ namespace FantasyGenerator.Controllers
                 return View("Error", errorModel);
             }
         }
+
+        public async Task<IActionResult> ShowFullNpcDescriptions(string npcId)
+        {
+            var npc = await npcService.NpcDetails(npcId);
+
+            return View(npc);
+        }
+
+        public async Task<IActionResult> EditNpc(string npcId)
+        {
+            var racesList = await raceService.GetAllRaces();
+
+            ViewBag.RaseItems = racesList
+                .Select(r => new SelectListItem()
+                {
+                    Text = r.Name,
+                    Value = r.Id,
+                });
+
+            var professionList = await professionService.GetAllProfession();
+
+            ViewBag.ProfessionItems = professionList
+                .Select(p => new SelectListItem()
+                {
+                    Text = p.Name,
+                    Value = p.Id,
+                });
+
+            var model = await npcService.GetNpcForEdit(npcId);
+
+            return View(model);
+        }
     }
 }

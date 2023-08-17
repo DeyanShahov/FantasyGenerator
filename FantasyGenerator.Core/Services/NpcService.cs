@@ -94,5 +94,59 @@ namespace FantasyGenerator.Core.Services
                 })
                .ToListAsync();
         }
+
+        public async Task<NpcEditViewModel> GetNpcForEdit(string npcId)
+        {
+            var npc = await repo.All<Npc>()
+                .Include(r => r.Race)
+                .Include(p => p.Profession)
+                .FirstOrDefaultAsync(p => p.Id.ToString() == npcId);
+
+            if (npc == null) return null;
+
+            var model = new NpcEditViewModel()
+            {
+                Id = npc.Id.ToString(),
+                FirstName = npc.FirstName,
+                LastName = npc.LastName,
+                NickNamePrefix = npc.NickNamePrefix,
+                NickNameSuffix = npc.NickNameSuffix,
+                IsMale = npc.IsMale,
+                RaceId = npc.Race.Name,
+                ProfessionId = npc.Profession.Name,
+                Description = npc.Description,
+                AuthorId = npc.AuthorId
+            };
+
+            return model;
+        }
+
+        public async Task<NpcFullViewModel> NpcDetails(string npcId)
+        {
+            var npc = await repo.All<Npc>()
+                .Include(a => a.Author)
+                .Include(r => r.Race)
+                .Include(p => p.Profession)
+                .FirstOrDefaultAsync(n => n.Id.ToString() == npcId);
+
+            if (npc == null) return null;
+
+            //var author = await userService.GetUserById(npc.AuthorId);
+
+            var viewModel = new NpcFullViewModel
+            {
+                FirstName = npc.FirstName,
+                LastName = npc.LastName,
+                NickNamePrefix = npc.NickNamePrefix,
+                NickNameSuffix = npc.NickNameSuffix,
+                IsMale = npc.IsMale ? "Male" : "Female",
+                Race = npc.Race.Name,
+                Profession = npc.Profession.Name,
+                Description = npc.Description,
+                Author = npc.Author.UserName
+            };
+
+            return viewModel;
+        }
     }
 }

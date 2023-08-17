@@ -1,0 +1,102 @@
+﻿@using FantasyGenerator.Core.Models.Npc;
+@model NpcEditViewModel
+
+@{
+    ViewData["Title"] = "Edit your Npc";
+    var raceList = (IEnumerable<SelectListItem>)ViewBag.RaseItems;
+    var professionList = (IEnumerable<SelectListItem>)ViewBag.ProfessionItems;
+}
+
+<link rel="stylesheet" href="/text.css" type="text/css" />
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <section>
+            <form class="mx-auto half-width col-5" method="post">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="AuthorId" value="@Model.AuthorId" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="top-border-line primary-separator"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="FirstName" class="form-control" autocomplete="firstname" aria-required="true" placeholder="" value="@Model.FirstName" />
+                    <label asp-for="FirstName" class="form-label"></label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="LastName" class="form-control" autocomplete="lastname" aria-required="true" placeholder="" value="@Model.LastName" />
+                    <label asp-for="LastName" class="form-label"></label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="NickNamePrefix" class="form-control" autocomplete="nicknameprefix" aria-required="true" placeholder="" value="@Model.NickNamePrefix" />
+                    <label asp-for="NickNamePrefix" class="form-label"></label>
+                    <span asp-validation-for="NickNamePrefix" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="NickNameSuffix" class="form-control" autocomplete="nicknamesuffix" aria-required="true" placeholder="" value="@Model.NickNameSuffix" />
+                    <label asp-for="NickNameSuffix" class="form-label"></label>
+                    <span asp-validation-for="NickNameSuffix" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="IsMale" class="form-control" autocomplete="ismale" aria-required="true" placeholder="" value="@Model.IsMale" />
+                    <label asp-for="IsMale" class="form-label"></label>
+                    <span asp-validation-for="IsMale" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 form-floating mb-3">
+                    <div class="form-group">
+                        <label>Select Race</label>
+                        <select asp-for="RaceId" class="form-control">
+                            @foreach (var race in raceList)
+                            {
+                                if (race.Text == Model.RaceId.ToString())
+                                {
+                                    <option value="@race.Value" selected>@race.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@race.Value">@race.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 form-floating mb-3">
+                    <div class="form-group">
+                        <label>Select Profession</label>
+                        <select asp-for="ProfessionId" class="form-control">
+                            @foreach (var prof in professionList)
+                            {
+                                if (prof.Text == Model.ProfessionId.ToString())
+                                {
+                                    <option value="@prof.Value" selected>@prof.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@prof.Value">@prof.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Description" class="form-control" autocomplete="description" aria-required="true" placeholder="" value="@Model.Description" />
+                    <label asp-for="Description" class="form-label"></label>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="top-border-line primary-separator"></div>
+                <div class="button-holder d-flex justify-content-center">
+                    <button type="submit" class="btn SMS-bg-color">Edit</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -10,9 +10,9 @@ namespace FantasyGenerator.Core.Contracts
 
         Task<IEnumerable<NpcListViewModel>> GetMyNpc(string authorId);
 
-        //Task<ProfessionFullViewModel> ProfessionDetails(string professionId);
+        Task<NpcFullViewModel> NpcDetails(string npcId);
 
-        //Task<ProfessionEditViewModel> GetProfessionForEdit(string professionId);
+        Task<NpcEditViewModel> GetNpcForEdit(string npcId);
 
         //Task<bool> UpdateProfession(ProfessionEditViewModel model);
 
