@@ -1,5 +1,6 @@
 ﻿using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Npc;
+using FantasyGenerator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -60,7 +61,7 @@ namespace FantasyGenerator.Controllers
             if (isError == null)
             {
                 //return RedirectToAction(nameof(ShowMyProfession), new { userId = userId });
-                return View();
+                return RedirectToAction(nameof(ShowAllNpc));
             }
 
             //var errorModel = new ErrorViewModel { RequestId = isError };
@@ -69,6 +70,39 @@ namespace FantasyGenerator.Controllers
 
             ModelState.AddModelError("", isError);
             return View();
+        }
+
+        public async Task<IActionResult> ShowAllNpc()
+        {
+            try
+            {
+                var npcList = await npcService.GetAllNpc();
+
+                return View(npcList);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
+        }
+
+        public async Task<IActionResult> ShowMyNpc(string userId)
+        {
+            //var userId = Request.Query["userId"];         
+            try
+            {
+                var npc = await npcService.GetMyNpc(userId);
+
+                return View(npc);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using FantasyGenerator.Core.Constants;
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Npc;
+using FantasyGenerator.Core.Models.Profession;
 using FantasyGenerator.Infrastructure.Data;
 using FantasyGenerator.Infrastructure.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace FantasyGenerator.Core.Services
 {
@@ -60,6 +62,37 @@ namespace FantasyGenerator.Core.Services
             }
 
             return error;
+        }
+
+        public async Task<IEnumerable<NpcListViewModel>> GetAllNpc()
+        {
+            var allNpc = await repo.All<Npc>()
+              .Select(n => new NpcListViewModel()
+              {
+                  Name = $"{n.FirstName} {n.LastName}",
+                  Gender = n.IsMale ? "Male" : "Female",
+                  Race = n.Race.Name,
+                  AuthorName = n.Author.UserName,
+                  Id = n.Id.ToString()
+              })
+              .ToListAsync();
+
+            return allNpc;
+        }
+
+        public async Task<IEnumerable<NpcListViewModel>> GetMyNpc(string authorId)
+        {
+            return await repo.All<Npc>()
+                .Where(n => n.AuthorId == authorId)
+                .Select(n => new NpcListViewModel()
+                {
+                    Name = $"{n.FirstName} {n.LastName}",
+                    Gender = n.IsMale ? "Male" : "Female",
+                    Race = n.Race.Name,
+                    AuthorName = n.Author.UserName,
+                    Id = n.Id.ToString()
+                })
+               .ToListAsync();
         }
     }
 }

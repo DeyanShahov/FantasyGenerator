@@ -6,9 +6,9 @@ namespace FantasyGenerator.Core.Contracts
     {
         Task<string> CreateNewNpc(NpcCreateViewModel model, string userId);
 
-        //Task<IEnumerable<ProfessionListViewModel>> GetAllProfession();
+        Task<IEnumerable<NpcListViewModel>> GetAllNpc();
 
-        //Task<IEnumerable<ProfessionListViewModel>> GetMyProfessions(string authorId);
+        Task<IEnumerable<NpcListViewModel>> GetMyNpc(string authorId);
 
         //Task<ProfessionFullViewModel> ProfessionDetails(string professionId);
 

@@ -1,6 +1,6 @@
-﻿@using FantasyGenerator.Core.Models.Profession;
-
-@model IEnumerable<ProfessionListViewModel>
+﻿@using FantasyGenerator.Core.Constants;
+@using FantasyGenerator.Core.Models.Npc;
+@model IEnumerable<NpcListViewModel>
 @{
 }
 
@@ -11,7 +11,7 @@
             <div class="card-header">
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3 class="card-title">My Profession</h3>
+                        <h3 class="card-title">All Npc</h3>
                         <div class="input-group input-group-sm" style="width: 150px;">
                             <input type="text" name="table_search" class="form-control" placeholder="Search">
                             <div class="input-group-append">
@@ -24,42 +24,46 @@
                 </div>
             </div>
 
-
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Category</th>
-                            <th>Short Description</th>
+                            <th>Gender</th>
+                            <th>Race</th>
+                            <th>Author</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (Model != null)
                         {
-                            @foreach (var prof in Model)
+                            @foreach (var element in Model)
                             {
                                 <tr>
-                                    <td>@prof.Name</td>
-                                    <td>@prof.Category</td>
-                                    <td>@prof.Description</td>
+                                    <td>@element.Name</td>
+                                    <td>@element.Gender</td>
+                                    <td>@element.Race</td>
+                                    <td>@element.AuthorName</td>
                                     <td>
-                                        <a asp-area="" asp-controller="profession" asp-action="ShowFullProfessionDescriptions" asp-route-professionId="@prof.Id" class="btn btn-block btn-outline-primary">All details</a>
-                                        <a asp-area="" asp-controller="profession" asp-action="EditProfession" asp-route-professionId="@prof.Id" class="btn btn-block btn-outline-primary">Edit</a>
+                                        <a asp-area="" asp-controller="Npc" asp-action="ShowFullNpcDescriptions" asp-route-npcId="@element.Id" class="btn btn-block btn-outline-primary">All details</a>
+                                        @if (User.IsInRole(UserConstants.Roles.Administrator))
+                                        {
+                                            <a asp-area="Admin" asp-controller="User" asp-action="DeleteNpc" asp-route-npcId="@element.Id" class="btn btn-block btn-outline-primary">Delete</a>
+                                        }
                                     </td>
                                 </tr>
                             }
                         }
-
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
-</div>
-@if (!Model.Any())
-{
-    <span style="font-size: 24px; color: red"> No profession found ...</span>
-}
+
+    @if (!Model.Any())
+    {
+        <span style="font-size: 24px; color: red"> No Npc found ...</span>
+    }
 </div>
