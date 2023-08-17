@@ -27,6 +27,7 @@ namespace FantasyGenerator.Core.Services
 
             if (!isValid) return validationError;
 
+
             Npc npc = new Npc()
             {
                 FirstName = model.FirstName.Trim(),
@@ -34,11 +35,18 @@ namespace FantasyGenerator.Core.Services
                 NickNamePrefix = model.NickNamePrefix?.Trim(),
                 NickNameSuffix = model.NickNameSuffix?.Trim(),
                 IsMale = model.IsMale,
-                RaceId = Guid.Parse(model.RaceId),
-                ProfessionId = Guid.Parse(model.ProfessionId),
                 Description = model.Description.Trim(),
                 AuthorId = userId
             };
+
+            Guid guidParse;
+
+            if (Guid.TryParse(model.RaceId, out guidParse)) npc.RaceId = guidParse;
+            else error = "Invalid Race";
+
+            if (Guid.TryParse(model.ProfessionId, out guidParse)) npc.ProfessionId = guidParse;
+            else error = "Invalid Profession";
+
 
 
             try

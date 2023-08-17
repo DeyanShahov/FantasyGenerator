@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Create new Npc";
+    var raceList = (IEnumerable<SelectListItem>)ViewBag.RaseItems;
+    var professionList = (IEnumerable<SelectListItem>)ViewBag.ProfessionItems;
 }
 
 <link rel="stylesheet" href="/text.css" type="text/css" />
@@ -35,33 +37,37 @@
                     <label asp-for="NickNameSuffix" class="form-label"></label>
                     <span asp-validation-for="NickNameSuffix" class="text-danger"></span>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" asp-for="IsMale" value="true" checked>
-                    <label class="form-check-label">
-                        Мъжки
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" asp-for="IsMale" value="false">
-                    <label class="form-check-label">
-                        Женски
-                    </label>
+
+                <div class="col-sm-6 form-floating mb-3">
+                    <div class="form-group">
+                        <label>Select Race</label>
+                        <select asp-for="RaceId" asp-items="@raceList" class="form-control"></select>
+                    </div>
                 </div>
 
-                <div class="form-floating mb-3">
-                    <input asp-for="RaceId" class="form-control" autocomplete="raceId" aria-required="true" placeholder="" />
-                    <label asp-for="RaceId" class="form-label"></label>
-                    <span asp-validation-for="RaceId" class="text-danger"></span>
+                <div class="col-sm-6 form-floating mb-3">
+                    <div class="form-group">
+                        <label>Select Profession</label>
+                        <select asp-for="ProfessionId" asp-items="@professionList" class="form-control"></select>
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="ProfessionId" class="form-control" autocomplete="professionId" aria-required="true" placeholder="" />
-                    <label asp-for="ProfessionId" class="form-label"></label>
-                    <span asp-validation-for="ProfessionId" class="text-danger"></span>
-                </div>
+
                 <div class="form-floating mb-3">
                     <input asp-for="Description" class="form-control" autocomplete="description" aria-required="true" placeholder="" />
                     <label asp-for="Description" class="form-label"></label>
                     <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="IsMale" value="true" checked>
+                    <label class="form-check-label">
+                        Male
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="IsMale" value="false">
+                    <label class="form-check-label">
+                        Female
+                    </label>
                 </div>
 
                 <div class="top-border-line primary-separator"></div>
