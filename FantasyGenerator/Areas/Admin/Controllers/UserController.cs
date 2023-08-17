@@ -22,15 +22,19 @@ namespace FantasyGenerator.Areas.Admin.Controllers
 
         private readonly IProfessionService professionService;
 
+        private readonly INpcService npcService;
+
         public UserController(RoleManager<IdentityRole> roleManager
             , IUserService userService, UserManager<IdentityUser> userManager
-            , IRaceService raceService, IProfessionService professionService)
+            , IRaceService raceService, IProfessionService professionService
+            , INpcService npcService)
         {
             this.roleManager = roleManager;
             this.userService = userService;
             this.userManager = userManager;
             this.raceService = raceService;
             this.professionService = professionService;
+            this.npcService = npcService;
         }
 
         public IActionResult Index()
@@ -168,6 +172,45 @@ namespace FantasyGenerator.Areas.Admin.Controllers
                 }
 
                 return RedirectToAction(nameof(ShowAllProfession), "Profession", new { area = "" });
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
+        }
+
+        public async Task<IActionResult> ShowAllNpc()
+        {
+            try
+            {
+                var npcList = await npcService.GetAllNpc();
+
+                return View(npcList);
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
+        }
+
+        public async Task<IActionResult> DeleteNpc(string npcId)
+        {
+            try
+            {
+                if (await npcService.DeleteNpc(npcId))
+                {
+                    ViewData["OK"] = ErrorMessages.DB_SAVE_OK;
+                }
+                else
+                {
+                    ViewData["ERROR"] = ErrorMessages.DB_ERROR;
+                }
+
+                return RedirectToAction(nameof(ShowAllNpc), "Npc", new { area = "" });
             }
             catch (Exception ex)
             {

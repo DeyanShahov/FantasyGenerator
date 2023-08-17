@@ -1,5 +1,7 @@
-﻿using FantasyGenerator.Core.Contracts;
+﻿using FantasyGenerator.Core.Constants;
+using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Npc;
+using FantasyGenerator.Core.Models.Profession;
 using FantasyGenerator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -60,8 +62,8 @@ namespace FantasyGenerator.Controllers
 
             if (isError == null)
             {
-                //return RedirectToAction(nameof(ShowMyProfession), new { userId = userId });
-                return RedirectToAction(nameof(ShowAllNpc));
+                return RedirectToAction(nameof(ShowMyNpc), new { userId = userId });
+                //return RedirectToAction(nameof(ShowMyNpc));
             }
 
             //var errorModel = new ErrorViewModel { RequestId = isError };
@@ -135,6 +137,32 @@ namespace FantasyGenerator.Controllers
             var model = await npcService.GetNpcForEdit(npcId);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditNpc(NpcEditViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            try
+            {
+                if (await npcService.UpdateNpc(model))
+                {
+                    ViewData["OK"] = ErrorMessages.DB_SAVE_OK;
+                }
+                else
+                {
+                    ViewData["ERROR"] = ErrorMessages.DB_ERROR;
+                }
+
+                return RedirectToAction(nameof(ShowMyNpc), new { userId = model.AuthorId });
+            }
+            catch (Exception ex)
+            {
+                var errorModel = new ErrorViewModel { RequestId = ex.Message };
+
+                return View("Error", errorModel);
+            }
         }
     }
 }

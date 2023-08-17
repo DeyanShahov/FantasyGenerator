@@ -64,6 +64,22 @@ namespace FantasyGenerator.Core.Services
             return error;
         }
 
+        public async Task<bool> DeleteNpc(string npcId)
+        {
+            try
+            {
+                var npc = await repo.All<Npc>().FirstOrDefaultAsync(p => p.Id.ToString() == npcId);
+                await repo.DeleteAsync<Npc>(npc.Id);
+                await repo.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<IEnumerable<NpcListViewModel>> GetAllNpc()
         {
             var allNpc = await repo.All<Npc>()
@@ -147,6 +163,45 @@ namespace FantasyGenerator.Core.Services
             };
 
             return viewModel;
+        }
+
+        public async Task<bool> UpdateNpc(NpcEditViewModel model)
+        {
+            bool result = false;
+
+            var (isValid, validationError) = validationService.ValidateModel(model);
+
+            if (!isValid) return result;
+
+            var npc = await repo.All<Npc>().FirstOrDefaultAsync(n => n.Id.ToString() == model.Id);
+
+            if (npc != null && npc.Id.ToString() == model.Id && npc.AuthorId == model.AuthorId)
+            {
+                npc.FirstName = model.FirstName;
+                npc.LastName = model.LastName;
+                npc.NickNamePrefix = model.NickNamePrefix;
+                npc.NickNameSuffix = model.NickNameSuffix;
+                npc.IsMale = model.IsMale;
+                npc.Description = model.Description;
+
+                try
+                {
+                    Guid guidParse;
+
+                    if (Guid.TryParse(model.RaceId, out guidParse)) npc.RaceId = guidParse;
+
+                    if (Guid.TryParse(model.ProfessionId, out guidParse)) npc.ProfessionId = guidParse;
+
+                    await repo.SaveChangesAsync();
+                    result = true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            return result;
         }
     }
 }

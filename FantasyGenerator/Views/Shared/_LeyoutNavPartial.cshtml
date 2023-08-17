@@ -6,10 +6,13 @@
         <a class="nav-link text-dark" asp-area="Admin" asp-controller="User" asp-action="manageusers">Users</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Race" asp-action="ShowAllRaces">All Races</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Race" asp-action="ShowAllRaces">Races</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Profession" asp-action="ShowAllProfession">All Professions</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Profession" asp-action="ShowAllProfession">Professions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Npc" asp-action="ShowAllNpc">All Npc</a>
     </li>
 }
 else if(User.IsInRole(UserConstants.Roles.User))

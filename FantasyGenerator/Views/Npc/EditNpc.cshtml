@@ -38,10 +38,18 @@
                     <label asp-for="NickNameSuffix" class="form-label"></label>
                     <span asp-validation-for="NickNameSuffix" class="text-danger"></span>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="IsMale" class="form-control" autocomplete="ismale" aria-required="true" placeholder="" value="@Model.IsMale" />
-                    <label asp-for="IsMale" class="form-label"></label>
-                    <span asp-validation-for="IsMale" class="text-danger"></span>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="IsMale" value="true" checked>
+                    <label class="form-check-label">
+                        Male
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" asp-for="IsMale" value="false">
+                    <label class="form-check-label">
+                        Female
+                    </label>
                 </div>
 
                 <div class="col-sm-6 form-floating mb-3">

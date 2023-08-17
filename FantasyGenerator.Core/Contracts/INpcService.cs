@@ -14,8 +14,8 @@ namespace FantasyGenerator.Core.Contracts
 
         Task<NpcEditViewModel> GetNpcForEdit(string npcId);
 
-        //Task<bool> UpdateProfession(ProfessionEditViewModel model);
+        Task<bool> UpdateNpc(NpcEditViewModel model);
 
-        //Task<bool> DeleteProfession(string professionId);
+        Task<bool> DeleteNpc(string npcId);
     }
 }
