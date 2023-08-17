@@ -41,7 +41,8 @@ namespace FantasyGenerator
                 .AddScoped<IValidationService, ValidationService>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<IRaceService, RaceService>()
-                .AddScoped<IProfessionService, ProfessionService>();
+                .AddScoped<IProfessionService, ProfessionService>()
+                .AddScoped<INpcService, NpcService>();
 
             //builder.Services.AddApplicationServices();
 
