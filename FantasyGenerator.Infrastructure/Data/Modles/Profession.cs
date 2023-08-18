@@ -28,7 +28,7 @@ namespace FantasyGenerator.Infrastructure.Data.Content
         [ForeignKey(nameof(AuthorId))]
         public IdentityUser Author { get; set; }
 
-        public bool IsPublic { get; set; }
+        public bool IsPublic { get; set; } = true;
 
         public IEnumerable<Npc> Npcs { get; set; } = new List<Npc>();
     }

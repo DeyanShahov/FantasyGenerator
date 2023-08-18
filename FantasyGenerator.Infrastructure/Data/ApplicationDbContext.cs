@@ -1,5 +1,6 @@
 ﻿using FantasyGenerator.Infrastructure.Data.Content;
 using FantasyGenerator.Infrastructure.Data.Models;
+using FantasyGenerator.Infrastructure.Data.Modles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,8 @@ namespace FantasyGenerator.Infrastructure.Data
         public DbSet<Race> Races { get; set; }
 
         public DbSet<Profession> Professions { get; set;}
+
+        public DbSet<NpcName> NpcsName { get; set; }
     }
 
 
