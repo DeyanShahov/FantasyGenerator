@@ -5,7 +5,7 @@ using FantasyGenerator.Infrastructure.Data;
 using FantasyGenerator.Infrastructure.Data.Modles;
 using FantasyGenerator.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-
+using System.Text;
 
 namespace FantasyGenerator.Core.Services
 {
@@ -252,9 +252,26 @@ namespace FantasyGenerator.Core.Services
             return String.Join(", ", nameList);
         }
 
-        public Task<bool> CheckForUniqueName(string npcName)
+        public  async Task<(string, string)> FilterNpcName(string npcName)
         {
-            throw new NotImplementedException();
+            var namesFromModel = npcName.Split(',');
+
+            string allNpcNames = await  GetAllNpcNames();
+
+            var duplicateNames = new StringBuilder();
+            var uniqueNames = new StringBuilder();
+
+            foreach (var name in namesFromModel)
+            {
+                if (allNpcNames.Contains(name)) duplicateNames.Append(name).Append(',');
+                else uniqueNames.Append(name).Append(',');
+            }
+
+            string duplicate = duplicateNames.ToString().Trim(',');
+            string unique = uniqueNames.ToString().Trim(',');
+
+            return (duplicate, unique);
         }
+
     }
 }

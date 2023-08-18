@@ -8,6 +8,6 @@ namespace FantasyGenerator.Core.Contracts
 
         Task<string> GetAllNpcNames();
 
-        Task<bool> CheckForUniqueName(string npcName);
+        Task<(string, string)> FilterNpcName(string namesFromModel);
     }
 }

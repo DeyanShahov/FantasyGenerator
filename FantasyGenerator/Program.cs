@@ -39,6 +39,7 @@ namespace FantasyGenerator
             builder.Services
                 .AddScoped<IApplicationDbRepository, ApplicationDbRepository>()
                 .AddScoped<IValidationService, ValidationService>()
+                .AddScoped<IAlertMessagesService, AlertMessagesService>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<IRaceService, RaceService>()
                 .AddScoped<IProfessionService, ProfessionService>()

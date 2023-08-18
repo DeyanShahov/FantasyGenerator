@@ -5,6 +5,7 @@ using FantasyGenerator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Text;
 
 namespace FantasyGenerator.Controllers
@@ -82,7 +83,7 @@ namespace FantasyGenerator.Controllers
             var informaciq = ViewData.ContainsKey(MessageConstant.ErrorMessage);
             var info = ViewData[MessageConstant.ErrorMessage];
 
-            var racesList = await raceService.GetAllRaces();            
+            var racesList = await raceService.GetAllRaces();
 
             ViewBag.RaseItems = racesList
                 .Select(r => new SelectListItem()
@@ -94,62 +95,34 @@ namespace FantasyGenerator.Controllers
             var namesList = await npcService.GetAllNpcNames();
 
             ViewBag.NpcNames = namesList;
-
-            if (TempData.ContainsKey(MessageConstant.ErrorMessage))
-            {
-                ViewData[MessageConstant.ErrorMessage] = TempData[MessageConstant.ErrorMessage];
-                TempData.Remove(MessageConstant.ErrorMessage);
-            }
-
-
-            if (TempData.ContainsKey(MessageConstant.SuccessMessage))
-            {
-                ViewData[MessageConstant.SuccessMessage] = TempData[MessageConstant.SuccessMessage];
-                TempData.Remove(MessageConstant.SuccessMessage);
-            }
+ 
+            CheckAlertMessages();
 
             return View();
-        }
+        }      
+    
 
         [HttpPost]
         public async Task<IActionResult> CreateNewNpcName(NpcNameCreateViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var namesFromModel = model.Name.Split(',');
+            var (duplicateNames, uniqueNames) = await npcService.FilterNpcName(model.Name);
 
-            string allNpcNames = await npcService.GetAllNpcNames();
+            SetAlertMessage(MessageConstant.ErrorMessage, duplicateNames);
 
-            StringBuilder duplicateNames = new StringBuilder();
-            StringBuilder uniqueNames = new StringBuilder();
-
-            foreach (var name in namesFromModel)
-            {
-                if (allNpcNames.Contains(name)) duplicateNames.Append(name).Append(", ");
-                else uniqueNames.Append(name).Append(", ");
-            }
-
-            if (!string.IsNullOrEmpty(duplicateNames.ToString()))
-            {
-                var newString = duplicateNames.ToString().Substring(0,duplicateNames.Length - 2).Trim();
-                TempData["ErrorMessage"] = $"{newString} already exists.";
-            }
-
-            if (!string.IsNullOrEmpty(uniqueNames.ToString()))
-            {
-                var newString = uniqueNames.ToString().Substring(0, uniqueNames.Length - 2).Trim();
-                TempData["SuccessMessage"] = $"{newString} is successful addet to DB.";
-            }
-
-            model.Name = uniqueNames.ToString().Trim();
+            model.Name = uniqueNames;
 
             string isError = await npcService.AddNewNpcName(model);
+
+            SetAlertMessage(MessageConstant.SuccessMessage, uniqueNames);
 
             if (isError == null) return RedirectToAction(nameof(CreateNewNpcName), model);
 
             ModelState.AddModelError("", isError);
             return RedirectToAction(nameof(CreateNewNpcName), model);
         }
+
 
         public async Task<IActionResult> ShowAllNpc()
         {
@@ -239,6 +212,37 @@ namespace FantasyGenerator.Controllers
                 var errorModel = new ErrorViewModel { RequestId = ex.Message };
 
                 return View("Error", errorModel);
+            }
+        }
+
+
+
+        internal void SetAlertMessage(string messageState, string names)
+        {
+            if ( messageState == MessageConstant.SuccessMessage && !string.IsNullOrEmpty(names))
+            {
+                TempData[MessageConstant.SuccessMessage] = $"{names} {ErrorMessages.DB_SAVE_OK}.";
+            }
+
+            if ( messageState == MessageConstant.ErrorMessage  && !string.IsNullOrEmpty(names))
+            {
+                TempData[MessageConstant.ErrorMessage] = String.Format(ErrorMessages.ELEMENT_EXIST, names);
+            }
+        }
+
+        internal void CheckAlertMessages()
+        {
+            if (TempData.ContainsKey(MessageConstant.ErrorMessage))
+            {
+                ViewData[MessageConstant.ErrorMessage] = TempData[MessageConstant.ErrorMessage];
+                TempData.Remove(MessageConstant.ErrorMessage);
+            }
+
+
+            if (TempData.ContainsKey(MessageConstant.SuccessMessage))
+            {
+                ViewData[MessageConstant.SuccessMessage] = TempData[MessageConstant.SuccessMessage];
+                TempData.Remove(MessageConstant.SuccessMessage);
             }
         }
     }

@@ -17,5 +17,6 @@ namespace FantasyGenerator.Core.Contracts
         Task<bool> UpdateNpc(NpcEditViewModel model);
 
         Task<bool> DeleteNpc(string npcId);
+
     }
 }
