@@ -6,55 +6,6 @@
     ViewData["Title"] = "Add new Npc name";
     var raceList = (IEnumerable<SelectListItem>)ViewBag.RaseItems;
     var names = ViewBag.NpcNames;
-    var info = TempData["ErrorMessage"];
-}
-
-
-<!-- ... вашето съдържание ... -->
-@*@if (ViewData.ContainsKey(MessageConstant.ErrorMessage))
-{
-    ViewData[MessageConstant.ErrorMessage] = "Ne biva zapisa na imeto!!";
-}*@
-
-
-
-
-@if (TempData.ContainsKey(MessageConstant.ErrorMessage))
-{
-    @*ViewData[MessageConstant.ErrorMessage] = "Ne biva zapisa na imeto!!";*@
-
-    @*<div id="errorMessage" class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-
-    <script>
-        setTimeout(function () {
-            var errorMessage = document.getElementById('errorMessage');
-            if (errorMessage) {
-                errorMessage.remove();
-            }
-        }, 2000);
-    </script>*@
-
-  @*  <script>
-        toastr.error("@TempData["ErrorMessage"]");
-    </script>*@
-}
-
-@if (TempData.ContainsKey("SuccessMessage"))
-{
-    <div id="successMessage" class="alert alert-success" role="alert">
-        @TempData["SuccessMessage"]
-    </div>
-
-    <script>
-        setTimeout(function () {
-            var successMessage = document.getElementById('successMessage');
-            if (successMessage) {
-                successMessage.remove();
-            }
-        }, 2000);
-    </script>
 }
 
 
@@ -177,19 +128,4 @@
     });
 </script>
 
-<script>
-    // Проверяваме за съобщения за грешки
-    if (@TempData.ContainsKey("ErrorMessage")) {
-        toastr.error('@TempData["ErrorMessage"]');
-        // Изтриваме съобщението след показване
-    @TempData.Remove("ErrorMessage");
-    }
-
-    // Проверяваме за съобщения за успех
-    if (@TempData.ContainsKey("SuccessMessage")) {
-        toastr.success('@TempData["SuccessMessage"]');
-        // Изтриваме съобщението след показване
-    @TempData.Remove("SuccessMessage");
-    }
-</script>
 
