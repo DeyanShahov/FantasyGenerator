@@ -2,10 +2,15 @@
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Npc;
 using FantasyGenerator.Core.Models.Profession;
+using FantasyGenerator.Core.Services;
 using FantasyGenerator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Text;
+using System.Xml.Linq;
+using static FantasyGenerator.Infrastructure.Data.DataConstants;
 
 namespace FantasyGenerator.Controllers
 {
@@ -13,19 +18,22 @@ namespace FantasyGenerator.Controllers
     {
         private readonly INpcService npcService;
 
+        //private readonly NpcService npcService;
+
         private readonly IRaceService raceService;
 
         private readonly IProfessionService professionService;
 
         private readonly UserManager<IdentityUser> userManager;
 
-        public NpcController(INpcService npcService, UserManager<IdentityUser> userManager
-            , IRaceService raceService, IProfessionService professionService)
+
+        public NpcController(UserManager<IdentityUser> userManager
+            , IRaceService raceService, IProfessionService professionService, INpcService npcService)
         {
-            this.npcService = npcService;
             this.userManager = userManager;
             this.raceService = raceService;
             this.professionService = professionService;
+            this.npcService = npcService;
         }
 
         public async Task<IActionResult> CreateNewNpc()
@@ -72,6 +80,74 @@ namespace FantasyGenerator.Controllers
 
             ModelState.AddModelError("", isError);
             return View();
+        }
+
+        public async Task<IActionResult> CreateNewNpcName()
+        {
+            var racesList = await raceService.GetAllRaces();
+
+            ViewBag.RaseItems = racesList
+                .Select(r => new SelectListItem()
+                {
+                    Text = r.Name,
+                    Value = r.Id,
+                });
+
+            var namesList = await npcService.GetAllNpcNames();
+
+            ViewBag.NpcNames = namesList;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewNpcName(NpcNameCreateViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var namesFromModel = model.Name.Split(',');
+
+            string allNpcNames = await npcService.GetAllNpcNames();
+
+            StringBuilder duplicateNames = new StringBuilder();
+            StringBuilder uniqueNames = new StringBuilder();
+
+            foreach (var name in namesFromModel)
+            {
+                if (allNpcNames.Contains(name))
+                {
+                    duplicateNames.Append(name).Append(", ");              
+                }
+                else
+                {
+                    uniqueNames.Append(name).Append(", ");
+                    //TempData["ErrorMessage"] = $"{name} вече съществува";
+                    //return RedirectToAction(nameof(CreateNewNpcName), model);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(duplicateNames.ToString()))
+            {
+                var newString = duplicateNames.ToString().Substring(0,duplicateNames.Length - 2).Trim();
+                TempData["ErrorMessage"] = $"{newString} already exists";
+            }
+
+            if (!string.IsNullOrEmpty(uniqueNames.ToString()))
+            {
+                //var newString = uniqueNames.ToString().Substring(0, uniqueNames.Length - 2).Trim();
+                TempData["SuccessMessage"] = "Действието беше изпълнено успешно.";
+            }
+        
+
+            model.Name = uniqueNames.ToString().Trim();
+
+            string isError = await npcService.AddNewNpcName(model);
+
+            if (isError == null) return RedirectToAction(nameof(CreateNewNpcName), model);
+
+            ModelState.AddModelError("", isError);
+            //return View();
+            return RedirectToAction(nameof(CreateNewNpcName), model);
         }
 
         public async Task<IActionResult> ShowAllNpc()

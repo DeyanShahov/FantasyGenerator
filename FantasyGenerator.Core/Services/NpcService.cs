@@ -1,10 +1,11 @@
 ﻿using FantasyGenerator.Core.Constants;
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Npc;
-using FantasyGenerator.Core.Models.Profession;
 using FantasyGenerator.Infrastructure.Data;
+using FantasyGenerator.Infrastructure.Data.Modles;
 using FantasyGenerator.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace FantasyGenerator.Core.Services
 {
@@ -54,6 +55,44 @@ namespace FantasyGenerator.Core.Services
             try
             {
                 await repo.AddAsync(npc);
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                error = $"{ErrorMessages.DB_ERROR}: {e}";
+            }
+
+            return error;
+        }
+
+        public async Task<string> AddNewNpcName(NpcNameCreateViewModel model)
+        {
+            string error = null;
+
+            var (isValid, validationError) = validationService.ValidateModel(model);
+
+            if (!isValid) return validationError;
+
+            var namesList = model.Name.Split(',');
+
+            var npcNamesList = new List<NpcName>();
+
+            foreach (var npcName in namesList)
+            {
+                npcNamesList.Add(
+                    new NpcName()
+                    {
+                        Name = npcName.Trim(),
+                        IsMale = model.IsMale,
+                        IsFirstName = model.IsFirstName,
+                        CategoryName = model.CategoryName,
+                        SuitableRace = model.SuitableRace
+                    });
+            }
+
+            try
+            {
+                await repo.AddRangeAsync(npcNamesList);
                 await repo.SaveChangesAsync();
             }
             catch (Exception e)
@@ -202,6 +241,20 @@ namespace FantasyGenerator.Core.Services
             }
 
             return result;
+        }
+
+        public async Task<string> GetAllNpcNames()
+        {
+           var nameList = await repo.All<NpcName>()
+                .Select(n =>  n.Name)
+                .ToListAsync();
+
+            return String.Join(", ", nameList);
+        }
+
+        public Task<bool> CheckForUniqueName(string npcName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace FantasyGenerator.Core.Contracts
 {
-    public interface INpcService
+    public interface INpcService : INpcNameService
     {
         Task<string> CreateNewNpc(NpcCreateViewModel model, string userId);
 
