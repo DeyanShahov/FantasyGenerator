@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FantasyGenerator.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/dist/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/dist/toastr.min.js"></script>
 
     @*   <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -55,11 +59,12 @@
         <a href="javascript:void(0);" onclick="toggleSecondNavBar('secondNavBar2')">Покажи/Скрий NavBar 2</a>*@
 
         <!-- И така нататък за другите "secondNavBar" елементи -->
-
+       
        
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <partial name="_AlertPartial" />
             @RenderBody()
         </main>
     </div>
@@ -70,9 +75,27 @@
         </div>
     </footer>
 
+    @if (TempData.ContainsKey("SuccessMessage"))
+    {
+        <script>
+            toastr.success("@TempData["SuccessMessage"]");
+        </script>
+    }
+
+    @if (TempData.ContainsKey("ErrorMessage"))
+    {
+        <script>
+            toastr.error("@TempData["ErrorMessage"]");
+        </script>
+    }
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/plugins/toastr/toastr.min.js"></script>
+    <partial name="_UserMessages" />
+    <partial name="_AlertPartial" />
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

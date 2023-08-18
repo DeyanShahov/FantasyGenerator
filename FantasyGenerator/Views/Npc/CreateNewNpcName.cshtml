@@ -1,15 +1,29 @@
-﻿@using FantasyGenerator.Core.Models.Npc;
+﻿@using FantasyGenerator.Core.Constants;
+@using FantasyGenerator.Core.Models.Npc;
 @model NpcNameCreateViewModel
 
 @{
     ViewData["Title"] = "Add new Npc name";
     var raceList = (IEnumerable<SelectListItem>)ViewBag.RaseItems;
     var names = ViewBag.NpcNames;
+    var info = TempData["ErrorMessage"];
 }
 
-@if (TempData.ContainsKey("ErrorMessage"))
+
+<!-- ... вашето съдържание ... -->
+@*@if (ViewData.ContainsKey(MessageConstant.ErrorMessage))
 {
-    <div id="errorMessage" class="alert alert-danger">
+    ViewData[MessageConstant.ErrorMessage] = "Ne biva zapisa na imeto!!";
+}*@
+
+
+
+
+@if (TempData.ContainsKey(MessageConstant.ErrorMessage))
+{
+    @*ViewData[MessageConstant.ErrorMessage] = "Ne biva zapisa na imeto!!";*@
+
+    @*<div id="errorMessage" class="alert alert-danger">
         @TempData["ErrorMessage"]
     </div>
 
@@ -20,7 +34,11 @@
                 errorMessage.remove();
             }
         }, 2000);
-    </script>
+    </script>*@
+
+  @*  <script>
+        toastr.error("@TempData["ErrorMessage"]");
+    </script>*@
 }
 
 @if (TempData.ContainsKey("SuccessMessage"))
@@ -157,5 +175,21 @@
     manualRaceInput.addEventListener('input', function () {
         suitableRaceInput.value = manualRaceInput.value;
     });
+</script>
+
+<script>
+    // Проверяваме за съобщения за грешки
+    if (@TempData.ContainsKey("ErrorMessage")) {
+        toastr.error('@TempData["ErrorMessage"]');
+        // Изтриваме съобщението след показване
+    @TempData.Remove("ErrorMessage");
+    }
+
+    // Проверяваме за съобщения за успех
+    if (@TempData.ContainsKey("SuccessMessage")) {
+        toastr.success('@TempData["SuccessMessage"]');
+        // Изтриваме съобщението след показване
+    @TempData.Remove("SuccessMessage");
+    }
 </script>
 

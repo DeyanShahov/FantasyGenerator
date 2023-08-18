@@ -46,6 +46,7 @@ namespace FantasyGenerator.Controllers
 
         public async Task<IActionResult> ShowAllProfession()
         {
+           
             try
             {
                 var prof = await professionService.GetAllProfession();

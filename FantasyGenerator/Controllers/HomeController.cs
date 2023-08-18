@@ -24,6 +24,8 @@ namespace FantasyGenerator.Controllers
                 return RedirectToAction("Index", "Admin");
             }
 
+            //ViewData[MessageConstant.SuccessMessage] = "Ne biva!";
+
             return View();
         }
 

@@ -1,16 +1,11 @@
 ﻿using FantasyGenerator.Core.Constants;
 using FantasyGenerator.Core.Contracts;
 using FantasyGenerator.Core.Models.Npc;
-using FantasyGenerator.Core.Models.Profession;
-using FantasyGenerator.Core.Services;
 using FantasyGenerator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text;
-using System.Xml.Linq;
-using static FantasyGenerator.Infrastructure.Data.DataConstants;
 
 namespace FantasyGenerator.Controllers
 {
@@ -84,7 +79,10 @@ namespace FantasyGenerator.Controllers
 
         public async Task<IActionResult> CreateNewNpcName()
         {
-            var racesList = await raceService.GetAllRaces();
+            var informaciq = ViewData.ContainsKey(MessageConstant.ErrorMessage);
+            var info = ViewData[MessageConstant.ErrorMessage];
+
+            var racesList = await raceService.GetAllRaces();            
 
             ViewBag.RaseItems = racesList
                 .Select(r => new SelectListItem()
@@ -96,6 +94,19 @@ namespace FantasyGenerator.Controllers
             var namesList = await npcService.GetAllNpcNames();
 
             ViewBag.NpcNames = namesList;
+
+            if (TempData.ContainsKey(MessageConstant.ErrorMessage))
+            {
+                ViewData[MessageConstant.ErrorMessage] = TempData[MessageConstant.ErrorMessage];
+                TempData.Remove(MessageConstant.ErrorMessage);
+            }
+
+
+            if (TempData.ContainsKey(MessageConstant.SuccessMessage))
+            {
+                ViewData[MessageConstant.SuccessMessage] = TempData[MessageConstant.SuccessMessage];
+                TempData.Remove(MessageConstant.SuccessMessage);
+            }
 
             return View();
         }
@@ -114,30 +125,21 @@ namespace FantasyGenerator.Controllers
 
             foreach (var name in namesFromModel)
             {
-                if (allNpcNames.Contains(name))
-                {
-                    duplicateNames.Append(name).Append(", ");              
-                }
-                else
-                {
-                    uniqueNames.Append(name).Append(", ");
-                    //TempData["ErrorMessage"] = $"{name} вече съществува";
-                    //return RedirectToAction(nameof(CreateNewNpcName), model);
-                }
+                if (allNpcNames.Contains(name)) duplicateNames.Append(name).Append(", ");
+                else uniqueNames.Append(name).Append(", ");
             }
 
             if (!string.IsNullOrEmpty(duplicateNames.ToString()))
             {
                 var newString = duplicateNames.ToString().Substring(0,duplicateNames.Length - 2).Trim();
-                TempData["ErrorMessage"] = $"{newString} already exists";
+                TempData["ErrorMessage"] = $"{newString} already exists.";
             }
 
             if (!string.IsNullOrEmpty(uniqueNames.ToString()))
             {
-                //var newString = uniqueNames.ToString().Substring(0, uniqueNames.Length - 2).Trim();
-                TempData["SuccessMessage"] = "Действието беше изпълнено успешно.";
+                var newString = uniqueNames.ToString().Substring(0, uniqueNames.Length - 2).Trim();
+                TempData["SuccessMessage"] = $"{newString} is successful addet to DB.";
             }
-        
 
             model.Name = uniqueNames.ToString().Trim();
 
@@ -146,7 +148,6 @@ namespace FantasyGenerator.Controllers
             if (isError == null) return RedirectToAction(nameof(CreateNewNpcName), model);
 
             ModelState.AddModelError("", isError);
-            //return View();
             return RedirectToAction(nameof(CreateNewNpcName), model);
         }
 
