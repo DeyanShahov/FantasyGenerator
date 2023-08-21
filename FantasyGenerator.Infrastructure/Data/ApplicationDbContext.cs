@@ -53,6 +53,8 @@ namespace FantasyGenerator.Infrastructure.Data
         public DbSet<Profession> Professions { get; set;}
 
         public DbSet<NpcName> NpcsName { get; set; }
+
+        public DbSet<NpcCategoryName> NpcsCategoryName { get; set;}
     }
 
 

@@ -14,8 +14,6 @@ namespace FantasyGenerator.Controllers
     {
         private readonly INpcService npcService;
 
-        //private readonly NpcService npcService;
-
         private readonly IRaceService raceService;
 
         private readonly IProfessionService professionService;

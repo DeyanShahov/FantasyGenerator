@@ -252,6 +252,15 @@ namespace FantasyGenerator.Core.Services
             return String.Join(", ", nameList);
         }
 
+        public async Task<string> GetAllNpcCategoryNames()
+        {
+            var categoriesList = await repo.All<NpcCategoryName>()
+                .Select(n => n.Name)
+                .ToListAsync();
+
+            return String.Join(", ", categoriesList);
+        }
+
         public  async Task<(string, string)> FilterNpcName(string npcName)
         {
             var namesFromModel = npcName.Split(',');
