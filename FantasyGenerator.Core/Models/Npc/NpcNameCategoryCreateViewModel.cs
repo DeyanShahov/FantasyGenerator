@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FantasyGenerator.Core.Models.Npc
 {
-    public class NpcNameCategoryCreateViewModels
+    public class NpcNameCategoryCreateViewModel
     {
         [Required]
         [StringLength(DataConstants.NpcCategoryName.NameMaxLength

@@ -76,6 +76,32 @@ namespace FantasyGenerator.Controllers
             return View();
         }
 
+        public async Task<IActionResult> CreateNewNpcCategoryName()
+        {
+            CheckAlertMessages();
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewNpcCategoryName(NpcNameCategoryCreateViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            if (!await npcService.CheckForUniqueCategory(model.Name))
+            {
+                var result = await npcService.AddNpcNameCategory(model);
+
+                SetAlertMessage(MessageConstant.SuccessMessage, model.Name);
+            }
+            else
+            {
+                SetAlertMessage(MessageConstant.ErrorMessage, model.Name);
+            }
+
+            return RedirectToAction(nameof(CreateNewNpcCategoryName), model);
+        }
+
         public async Task<IActionResult> CreateNewNpcName()
         {
             var informaciq = ViewData.ContainsKey(MessageConstant.ErrorMessage);
@@ -99,7 +125,6 @@ namespace FantasyGenerator.Controllers
             return View();
         }      
     
-
         [HttpPost]
         public async Task<IActionResult> CreateNewNpcName(NpcNameCreateViewModel model)
         {

@@ -245,9 +245,9 @@ namespace FantasyGenerator.Core.Services
 
         public async Task<string> GetAllNpcNames()
         {
-           var nameList = await repo.All<NpcName>()
-                .Select(n =>  n.Name)
-                .ToListAsync();
+            var nameList = await repo.All<NpcName>()
+                 .Select(n => n.Name)
+                 .ToListAsync();
 
             return String.Join(", ", nameList);
         }
@@ -261,11 +261,39 @@ namespace FantasyGenerator.Core.Services
             return String.Join(", ", categoriesList);
         }
 
-        public  async Task<(string, string)> FilterNpcName(string npcName)
+        public async Task<string> AddNpcNameCategory(NpcNameCategoryCreateViewModel model)
+        {
+            string error = null;
+
+            var (isValid, validationError) = validationService.ValidateModel(model);
+
+            if (!isValid) return validationError;
+
+            var newCategory = new NpcCategoryName()
+            {
+                Name = model.Name.Trim(),
+                Description = String.IsNullOrWhiteSpace(model.Description) ? "Default empty description" : model.Description.Trim()
+            };
+
+
+            try
+            {
+                await repo.AddAsync(newCategory);
+                await repo.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                error = $"{ErrorMessages.DB_ERROR}: {e}";
+            }
+
+            return error;
+        }
+
+        public async Task<(string, string)> FilterNpcName(string npcName)
         {
             var namesFromModel = npcName.Split(',');
 
-            string allNpcNames = await  GetAllNpcNames();
+            string allNpcNames = await GetAllNpcNames();
 
             var duplicateNames = new StringBuilder();
             var uniqueNames = new StringBuilder();
@@ -282,5 +310,13 @@ namespace FantasyGenerator.Core.Services
             return (duplicate, unique);
         }
 
+        public async Task<bool> CheckForUniqueCategory(string name)
+        {
+            var categoryList = await repo.All<NpcCategoryName>().ToListAsync();
+
+            var result = categoryList.Any(cn => cn.Name.ToLower() == name.Trim().ToLower());
+
+            return result;
+        }
     }
 }
