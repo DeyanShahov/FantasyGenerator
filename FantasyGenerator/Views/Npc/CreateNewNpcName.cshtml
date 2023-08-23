@@ -6,6 +6,7 @@
     ViewData["Title"] = "Add new Npc name";
     var raceList = (IEnumerable<SelectListItem>)ViewBag.RaseItems;
     var names = ViewBag.NpcNames;
+    var categoryList = (IEnumerable<SelectListItem>)ViewBag.CategoryNameItems;
 }
 
 
@@ -55,10 +56,32 @@
                 </div>
 
 
-                <div class="form-floating mb-3">
-                    <input asp-for="CategoryName" class="form-control" autocomplete="categoryName" aria-required="true" placeholder="" />
-                    <label asp-for="CategoryName" class="form-label"></label>
-                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                <div class="form-group d-flex flex-row align-items-center">
+                    <div class="form-floating mb-3 me-2">
+                        <input id="categoryNameInput" asp-for="CategoryName" class="form-control" autocomplete="CategoryName" aria-required="true" placeholder="" />
+                        <label asp-for="CategoryName" class="form-label"></label>
+                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-sm-6 form-floating mb-3 ms-2">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select id="selectCategoryName" class="form-control">
+                                    <option value="" selected disabled>Select ...</option>
+                                    @{
+                                        if (categoryList != null)
+                                        {
+                                            foreach (var category in categoryList)
+                                            {
+                                                <option value="@category.Text">@category.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                                <input id="manualCategoryInput" type="text" class="form-control" placeholder="Enter custom value..." style="display: none;">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -125,6 +148,27 @@
 
     manualRaceInput.addEventListener('input', function () {
         suitableRaceInput.value = manualRaceInput.value;
+    });
+</script>
+
+<script>
+    const selectCategory = document.getElementById('selectCategoryName');
+    const manualCategoryInput = document.getElementById('manualCategoryInput');
+    const categoryNameInput = document.getElementById('categoryNameInput');
+
+    selectCategory.addEventListener('change', function () {
+        if (selectCategory.value === "") {
+            manualCategoryInput.style.display = "block";
+            categoryNameInput.value = "";
+        } else {
+            categoryNameInput.focus();
+            manualCategoryInput.style.display = "none";
+            categoryNameInput.value = selectCategory.value;
+        }
+    });
+
+    manualCategoryInput.addEventListener('input', function () {
+        categoryNameInput.value = manualCategoryInput.value;
     });
 </script>
 

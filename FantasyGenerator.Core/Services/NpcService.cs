@@ -318,5 +318,27 @@ namespace FantasyGenerator.Core.Services
 
             return result;
         }
+
+        //public async Task<string> NpcCategoryNameDynamically(string categoryName)
+        //{
+        //    var categoryList = await GetAllNpcCategoryNames();
+
+        //    var category = categoryName.Split("//")[0];
+        //    string description = null;
+
+        //    if (categoryName.Contains("//"))
+        //    {
+        //        description = categoryName.Split("//")?[1];
+        //    }
+            
+
+        //    if (!categoryList.Contains(categoryName))
+        //    {
+        //        var result = await AddNpcNameCategory(new NpcNameCategoryCreateViewModel { Name = category, Description = description ?? null });
+        //        return result;
+        //    }
+
+        //    return null;
+        //}
     }
 }

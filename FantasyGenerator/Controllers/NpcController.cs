@@ -119,6 +119,17 @@ namespace FantasyGenerator.Controllers
             var namesList = await npcService.GetAllNpcNames();
 
             ViewBag.NpcNames = namesList;
+
+            var categoriesName = await npcService.GetAllNpcCategoryNames();
+
+            var categoryList = categoriesName.Split(", ").Select(c => new { Name = c});
+
+            ViewBag.CategoryNameItems = categoryList
+                .Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Name
+                });
  
             CheckAlertMessages();
 
@@ -129,6 +140,8 @@ namespace FantasyGenerator.Controllers
         public async Task<IActionResult> CreateNewNpcName(NpcNameCreateViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
+
+            //await npcService.NpcCategoryNameDynamically(model.CategoryName?.Trim());
 
             var (duplicateNames, uniqueNames) = await npcService.FilterNpcName(model.Name);
 

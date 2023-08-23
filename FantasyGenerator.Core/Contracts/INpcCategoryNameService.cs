@@ -9,5 +9,7 @@ namespace FantasyGenerator.Core.Contracts
         Task<bool> CheckForUniqueCategory(string name);
 
         Task<string> AddNpcNameCategory(NpcNameCategoryCreateViewModel model);
+
+        //Task<string> NpcCategoryNameDynamically(string categoryName);
     }
 }
