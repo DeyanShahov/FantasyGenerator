@@ -1,6 +1,8 @@
 ﻿using FantasyGenerator.Infrastructure.Data.Content;
+using FantasyGenerator.Infrastructure.Data.JsonModels;
 using FantasyGenerator.Infrastructure.Data.Models;
 using FantasyGenerator.Infrastructure.Data.Modles;
+using FantasyGenerator.Infrastructure.InitialSeed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +46,12 @@ namespace FantasyGenerator.Infrastructure.Data
                 .HasForeignKey(n => n.ProfessionId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder
+                //.ApplyConfiguration(new InitialDataConfiguration<NpcName>(@"InitialSeed/NpcNames.json"))
+                .ApplyConfiguration(new InitialDataConfiguration<NpcName>(@"InitialSeed/HumanNpcNames.json"));
+                //.ApplyConfiguration(new InitialDataConfiguration<NpcName>(@"InitialSeed/HumanNpcNames.json"));
         }
 
         public DbSet<Npc> Npcs { get; set; }

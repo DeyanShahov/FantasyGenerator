@@ -1,0 +1,173 @@
+[
+  {
+    "Id": 1,
+    "Name": "Adam",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 2,
+    "Name": "Henry",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 3,
+    "Name": "John",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 4,
+    "Name": "Richard",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 5,
+    "Name": "Simon",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 6,
+    "Name": "William",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 7,
+    "Name": "Geoffrey",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 8,
+    "Name": "Hugh",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 9,
+    "Name": "Peter",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 10,
+    "Name": "Robert",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 11,
+    "Name": "Thomas",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 12,
+    "Name": "Gilbert",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 13,
+    "Name": "Fergus",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 14,
+    "Name": "Lugaid",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 15,
+    "Name": "Domnall",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 16,
+    "Name": "Conall",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 17,
+    "Name": "Cormac",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 18,
+    "Name": "Fland",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  },
+  {
+    "Id": 19,
+    "Name": "Ailil",
+    "IsMale": true,
+    "IsFirstName": true,
+    "CategoryName": "English Medieval",
+    "SuitableRace": "Human",
+    "IsPublic": true
+  }
+]
